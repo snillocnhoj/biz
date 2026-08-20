@@ -67,17 +67,13 @@
     html { scroll-behavior: smooth; }
     body { background-color: #FDFBF7; color: #2C221E; }
     
-    .text-stroke {
-      -webkit-text-stroke: 2px #EA580C;
-      color: transparent;
-    }
-    .text-stroke:hover {
-      color: #EA580C;
-      -webkit-text-stroke: 0px;
-    }
-
     .blend-lighten {
       mix-blend-mode: lighten;
+    }
+
+    /* Orange Tint Filter for Hero Headshot */
+    .orange-tint-headshot {
+      filter: sepia(100%) hue-rotate(-25deg) saturate(350%) brightness(0.9);
     }
 
     .portfolio-card {
@@ -96,6 +92,39 @@
     }
     .logo-card:hover .logo-img {
       filter: grayscale(0%) opacity(1);
+    }
+
+    /* Vector Architectural Drafting Style for "MESSAGING." */
+    .blueprint-svg {
+      cursor: pointer;
+      display: inline-block;
+      vertical-align: top;
+      height: 1.15em;
+      width: auto;
+      overflow: visible;
+    }
+
+    .blueprint-svg .draft-line {
+      stroke: rgba(253, 251, 247, 0.4);
+      stroke-width: 1;
+      transition: opacity 0.35s ease;
+    }
+
+    .blueprint-svg .letter-text {
+      fill: none;
+      stroke: #EA580C;
+      stroke-width: 3;
+      transition: fill 0.35s ease, stroke 0.35s ease, filter 0.35s ease;
+    }
+
+    .blueprint-svg:hover .draft-line {
+      opacity: 0;
+    }
+
+    .blueprint-svg:hover .letter-text {
+      fill: #EA580C;
+      stroke: #EA580C;
+      filter: drop-shadow(0px 0px 15px rgba(234, 88, 12, 0.5));
     }
   </style>
 </head>
@@ -118,7 +147,7 @@
         <button onclick="scrollToVision()" class="hover:text-burntOrange-400 transition-colors uppercase">01. Vision</button>
         <button onclick="scrollToServices()" class="hover:text-burntOrange-400 transition-colors uppercase">02. Services</button>
         <button onclick="scrollToWork()" class="hover:text-burntOrange-400 transition-colors uppercase">03. Work</button>
-        <a href="#contact" class="hover:text-burntOrange-400 transition-colors">04. Contact</a>
+        <button onclick="scrollToContact()" class="hover:text-burntOrange-400 transition-colors uppercase">04. Contact</button>
       </nav>
 
       <button onclick="toggleModal(true)" class="group relative px-6 py-2.5 rounded-full bg-burntOrange-500 text-white text-xs font-extrabold uppercase tracking-wider overflow-hidden transition-all hover:bg-burntOrange-600 shadow-lg shadow-burntOrange-500/20">
@@ -153,8 +182,41 @@
           <!-- Headline Lines -->
           <div class="font-display text-5xl sm:text-7xl lg:text-9xl font-black text-cream tracking-tighter leading-[0.92] mb-8 uppercase space-y-1 overflow-hidden">
             <div id="hero-line-1" class="text-left">STRATEGIC</div>
-            <div id="hero-line-2" class="text-right sm:pr-12 lg:pr-24"><span class="text-stroke transition-all duration-500">MESSAGING.</span></div>
-            <div id="hero-line-3" class="text-left sm:pl-8 lg:pl-16">COMPELLING</div>
+            <div id="hero-line-2" class="text-right sm:pr-12 lg:pr-24">
+              <!-- Full-Sized Architectural Vector Drafted Word -->
+              <svg class="blueprint-svg" viewBox="-15 -10 680 120" xmlns="http://www.w3.org/2000/svg">
+                <!-- Short Baseline & Cap-Height Construction Lines -->
+                <line x1="-25" y1="12" x2="675" y2="12" class="draft-line" />
+                <line x1="-25" y1="88" x2="675" y2="88" class="draft-line" />
+                <line x1="-25" y1="50" x2="675" y2="50" class="draft-line" stroke-dasharray="2,2" />
+
+                <!-- Truncated Vertical Drafting Ticks -->
+                <line x1="5" y1="-2" x2="5" y2="102" class="draft-line" />
+                <line x1="68" y1="-2" x2="68" y2="102" class="draft-line" />
+                <line x1="135" y1="-2" x2="135" y2="102" class="draft-line" />
+                <line x1="205" y1="-2" x2="205" y2="102" class="draft-line" />
+                <line x1="270" y1="-2" x2="270" y2="102" class="draft-line" />
+                <line x1="335" y1="-2" x2="335" y2="102" class="draft-line" />
+                <line x1="400" y1="-2" x2="400" y2="102" class="draft-line" />
+                <line x1="470" y1="-2" x2="470" y2="102" class="draft-line" />
+                <line x1="535" y1="-2" x2="535" y2="102" class="draft-line" />
+                <line x1="605" y1="-2" x2="605" y2="102" class="draft-line" />
+                <line x1="655" y1="-2" x2="655" y2="102" class="draft-line" />
+
+                <!-- Short Diagonal Cross Ticks -->
+                <line x1="-5" y1="95" x2="75" y2="5" class="draft-line" />
+                <line x1="125" y1="95" x2="215" y2="5" class="draft-line" />
+                <line x1="255" y1="5" x2="345" y2="95" class="draft-line" />
+                <line x1="385" y1="95" x2="475" y2="5" class="draft-line" />
+                <line x1="525" y1="5" x2="615" y2="95" class="draft-line" />
+
+                <!-- Text Outlines -->
+                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text">MESSAGING.</text>
+              </svg>
+            </div>
+            
+            <!-- Shifted Down phrase "COMPELLING CREATIVE" -->
+            <div id="hero-line-3" class="text-left sm:pl-8 lg:pl-16 pt-4 sm:pt-6">COMPELLING</div>
             <div id="hero-line-4" class="text-right"><span class="text-transparent bg-clip-text bg-gradient-to-r from-cream via-burntOrange-400 to-burntOrange-500">CREATIVE.</span></div>
           </div>
 
@@ -191,10 +253,10 @@
 
       </section>
 
-      <!-- Panel 2: Headshot 1 Slide -->
+      <!-- Panel 2: Headshot 1 Slide (Opacity set to 25% with Orange Wash) -->
       <section class="w-[35vw] h-screen flex-shrink-0 relative bg-espresso-900 flex items-center justify-start -ml-[22vw] sm:-ml-[18vw] z-0">
         <div class="relative h-[90vh] flex items-center justify-center overflow-hidden">
-          <img id="headshot-img" src="./Assets/headshot.png" alt="John Collins" class="h-full w-auto object-contain blend-lighten scale-90">
+          <img id="headshot-img" src="./Assets/headshot.png" alt="John Collins" class="h-full w-auto object-contain blend-lighten scale-90 opacity-25 orange-tint-headshot">
         </div>
       </section>
 
@@ -365,224 +427,205 @@
 
   </div>
 
-  <!-- Vertical Gradient Spacer 1: Top Track (#2C221E) -> Bottom Track (#725F53) -->
+  <!-- Vertical Gradient Spacer 1: Top Track (#2C221E) -> Services (#725F53) -->
   <div class="w-full h-32 bg-gradient-to-b from-espresso-900 to-espresso-600 relative z-20"></div>
 
-  <!-- Bottom Horizontal Track: SERVICES -> Headshot 2 -> WORK (Reversed DOM Order for Right-to-Left Scrub) -->
-  <div id="bottom-horizontal-section" class="relative overflow-hidden bg-espresso-600">
-    <div id="bottom-horizontal-container" class="flex w-max h-screen">
+  <!-- Section 02: SERVICES (Standard Linear Vertical Section) -->
+  <section id="pillars" class="py-24 bg-espresso-600 text-cream relative z-10 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 w-full">
+      
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-10 gap-6">
+        <div>
+          <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-burntOrange-500/50 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-widest text-burntOrange-400 mb-4 shadow-sm">
+            02. SERVICES
+          </div>
+          <h2 class="font-display text-4xl sm:text-6xl lg:text-7xl font-black text-cream tracking-tight uppercase">
+            TELLING YOUR STORY<span class="text-burntOrange-500">.</span>
+          </h2>
+        </div>
+        <p class="text-cream/90 text-base sm:text-lg max-w-lg leading-relaxed font-light">
+          Showcase your brand with fundamental strategic guidance and world-class asset production.
+        </p>
+      </div>
 
-      <!-- Panel 1 in DOM (Furthest Right): WORK (Selected Portfolio) - w-[100vw] Matches Hero Section Width -->
-      <section id="work" class="w-[100vw] h-screen flex-shrink-0 relative bg-espresso-600 text-cream pt-24 pb-12 flex flex-col justify-center z-10 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 w-full">
-          
-          <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
-            <div>
-              <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-burntOrange-500/50 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-widest text-burntOrange-400 mb-4 shadow-sm">
-                03. SELECTED PORTFOLIO
-              </div>
-              <h2 class="font-display text-4xl sm:text-6xl font-black text-cream tracking-tight mt-2">
-                CREATIVE IN ACTION<span class="text-burntOrange-500">.</span>
-              </h2>
+      <!-- High-Pop Glassmorphic 3-Column Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Service Card 01 -->
+        <div class="service-card group relative bg-espresso-950/80 backdrop-blur-2xl p-8 rounded-3xl border border-white/20 hover:border-burntOrange-500 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(234,88,12,0.25)] overflow-hidden">
+          <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-burntOrange-500 via-burntOrange-400 to-transparent"></div>
+          <div class="absolute top-6 right-8 font-display text-8xl font-black text-burntOrange-500/15 group-hover:text-burntOrange-500/30 transition-colors pointer-events-none">01</div>
+
+          <div>
+            <div class="mb-6">
+              <span class="inline-block px-3.5 py-1.5 rounded-lg border border-burntOrange-500/40 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-wider text-burntOrange-400">FOUNDATION</span>
             </div>
-            <p class="text-cream/80 text-sm max-w-md leading-relaxed">
-              Explore strategic messaging frameworks, high-converting web landing pages, cinematic trailers, and original music scores.
-            </p>
-          </div>
-
-          <div class="flex flex-wrap items-center gap-3 mb-8 pb-6 border-b border-white/10 text-xs font-semibold uppercase tracking-wider">
-            <button onclick="filterPortfolio('all')" class="filter-btn active px-5 py-2.5 rounded-full border border-burntOrange-500 bg-burntOrange-500 text-white font-bold transition-all" data-filter="all">All Work (6)</button>
-            <button onclick="filterPortfolio('messaging')" class="filter-btn px-5 py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="messaging">Strategic Messaging</button>
-            <button onclick="filterPortfolio('video')" class="filter-btn px-5 py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="video">Video & Animation</button>
-            <button onclick="filterPortfolio('web')" class="filter-btn px-5 py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="web">Web & UX Design</button>
-            <button onclick="filterPortfolio('audio')" class="filter-btn px-5 py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="audio">Audio Scoring</button>
-          </div>
-
-          <!-- Cards Retain Light Cream Surface -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             
-            <!-- Card 1 -->
-            <div class="portfolio-card group bg-cream rounded-2xl border border-borderDark overflow-hidden hover:border-burntOrange-500/60 transition-all duration-500 flex flex-col justify-between shadow-xl" data-category="messaging web">
-              <div>
-                <div class="relative aspect-video overflow-hidden bg-espresso-900">
-                  <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Messaging Platform" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
-                  <div class="absolute top-4 left-4 flex gap-2">
-                    <span class="px-3 py-1 rounded-full bg-cream/90 border border-burntOrange-500/40 text-[10px] font-mono uppercase text-burntOrange-600 font-bold">MessagingWorks™</span>
-                  </div>
-                </div>
-                
-                <div class="p-6">
-                  <span class="text-xs font-mono text-espresso-900/60 uppercase">Enterprise SaaS Advisory</span>
-                  <h3 class="font-display text-xl font-bold text-espresso-900 mt-1 mb-2 group-hover:text-burntOrange-600 transition-colors">Strategic Messaging Architecture</h3>
-                  <p class="text-espresso-900/70 text-xs leading-relaxed mb-4 font-light">Condensed complex multi-tier enterprise cloud capabilities into a single-page message platform and unified boilerplate for global sales enablements.</p>
-                </div>
-              </div>
-              <div class="px-6 pb-5 pt-3 border-t border-borderDark flex items-center justify-between text-xs font-mono text-espresso-900/60">
-                <span>Core Deliverable</span><span class="text-burntOrange-600 font-bold group-hover:translate-x-1 transition-transform">View Case Study &rarr;</span>
-              </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="portfolio-card group bg-cream rounded-2xl border border-borderDark overflow-hidden hover:border-burntOrange-500/60 transition-all duration-500 flex flex-col justify-between shadow-xl" data-category="video">
-              <div>
-                <div class="relative aspect-video overflow-hidden bg-espresso-900">
-                  <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80" alt="Attraction Sizzle" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
-                  <div class="absolute top-4 left-4 flex gap-2">
-                    <span class="px-3 py-1 rounded-full bg-cream/90 border border-burntOrange-500/40 text-[10px] font-mono uppercase text-burntOrange-600 font-bold">Video Production</span>
-                  </div>
-                  <div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div class="w-12 h-12 rounded-full bg-burntOrange-500 text-white flex items-center justify-center shadow-xl">
-                      <svg class="w-5 h-5 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="p-6">
-                  <span class="text-xs font-mono text-espresso-900/60 uppercase">Themed Entertainment</span>
-                  <h3 class="font-display text-xl font-bold text-espresso-900 mt-1 mb-2 group-hover:text-burntOrange-600 transition-colors">Cinematic Attraction Showcase</h3>
-                  <p class="text-espresso-900/70 text-xs leading-relaxed mb-4 font-light">Directed, edited, and sound-designed a high-impact sizzle trailer showcasing next-generation water ride attractions for global B2B expos.</p>
-                </div>
-              </div>
-              <div class="px-6 pb-5 pt-3 border-t border-borderDark flex items-center justify-between text-xs font-mono text-espresso-900/60">
-                <span>Video & Motion</span><span class="text-burntOrange-600 font-bold group-hover:translate-x-1 transition-transform">Play Reel &rarr;</span>
-              </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="portfolio-card group bg-cream rounded-2xl border border-borderDark overflow-hidden hover:border-burntOrange-500/60 transition-all duration-500 flex flex-col justify-between shadow-xl" data-category="web">
-              <div>
-                <div class="relative aspect-video overflow-hidden bg-espresso-900">
-                  <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80" alt="Web Showcase" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
-                  <div class="absolute top-4 left-4 flex gap-2">
-                    <span class="px-3 py-1 rounded-full bg-cream/90 border border-burntOrange-500/40 text-[10px] font-mono uppercase text-burntOrange-600 font-bold">Web Development</span>
-                  </div>
-                </div>
-                
-                <div class="p-6">
-                  <span class="text-xs font-mono text-espresso-900/60 uppercase">Custom Digital Showcase</span>
-                  <h3 class="font-display text-xl font-bold text-espresso-900 mt-1 mb-2 group-hover:text-burntOrange-600 transition-colors">High-Conversion Landing Experience</h3>
-                  <p class="text-espresso-900/70 text-xs leading-relaxed mb-4 font-light">Architected a modern React-powered single-page property & service experience featuring interactive photo galleries and automated transparent document packages.</p>
-                </div>
-              </div>
-              <div class="px-6 pb-5 pt-3 border-t border-borderDark flex items-center justify-between text-xs font-mono text-espresso-900/60">
-                <span>Frontend Platform</span><span class="text-burntOrange-600 font-bold group-hover:translate-x-1 transition-transform">Explore Site &rarr;</span>
-              </div>
-            </div>
-
+            <h3 class="font-display text-2xl sm:text-3xl font-black text-cream mb-6 group-hover:text-burntOrange-400 transition-colors leading-tight">
+              Strategic Messaging & Positioning
+            </h3>
           </div>
 
-        </div>
-      </section>
-
-      <!-- Panel 2 in DOM (Center): Headshot 2 Slide - Precision Centered with Left Offset -ml-12 lg:-ml-16 -->
-      <section class="w-[28vw] h-screen flex-shrink-0 relative bg-espresso-600 flex items-center justify-center -ml-12 lg:-ml-16 z-20">
-        <div class="relative h-[90vh] w-full flex items-center justify-center overflow-hidden">
-          
-          <!-- 20% #725F53 Tint Layer -->
-          <div class="absolute inset-0 bg-[#725F53]/20 pointer-events-none z-10"></div>
-          
-          <!-- Asset with opacity-80 & blend-lighten -->
-          <img id="headshot2-img" src="./Assets/headshot2.png" alt="John Collins Creative Direction" class="h-full w-auto object-contain blend-lighten scale-90 opacity-80 mx-auto">
-        </div>
-      </section>
-
-      <!-- Panel 3 in DOM (First Screen View on Load): SERVICES (Matches Solution Section Layout Padding & Left Edge Alignment) -->
-      <section id="pillars" class="w-[85vw] lg:w-[80vw] xl:w-[75vw] h-screen flex-shrink-0 relative bg-espresso-600 text-cream pl-2 sm:pl-4 lg:pl-6 pr-12 sm:pr-16 lg:pr-24 flex items-center justify-start z-10 overflow-hidden">
-        <div class="relative z-10 max-w-none w-full">
-          
-          <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-10 gap-6">
-            <div>
-              <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-burntOrange-500/50 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-widest text-burntOrange-400 mb-4 shadow-sm">
-                02. SERVICES
-              </div>
-              <h2 class="font-display text-4xl sm:text-6xl lg:text-7xl font-black text-cream tracking-tight uppercase">
-                TELLING YOUR STORY<span class="text-burntOrange-500">.</span>
-              </h2>
-            </div>
-            <p class="text-cream/90 text-base sm:text-lg max-w-lg leading-relaxed font-light">
-              Showcase your brand with fundamental strategic guidance and world-class asset production.
-            </p>
+          <div class="pt-6 border-t border-white/10 space-y-3 text-xs font-mono font-bold uppercase tracking-wider text-cream/90">
+            <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>MessagingWorks™ Workshops</span></div>
+            <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Brand Positioning Platforms</span></div>
+            <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Go-To-Market Storytelling</span></div>
           </div>
+        </div>
 
-          <!-- High-Pop Glassmorphic 3-Column Grid -->
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Service Card 02 -->
+        <div class="service-card group relative bg-espresso-950/80 backdrop-blur-2xl p-8 rounded-3xl border border-white/20 hover:border-burntOrange-500 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(234,88,12,0.25)] overflow-hidden">
+          <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-burntOrange-500 via-burntOrange-400 to-transparent"></div>
+          <div class="absolute top-6 right-8 font-display text-8xl font-black text-burntOrange-500/15 group-hover:text-burntOrange-500/30 transition-colors pointer-events-none">02</div>
+
+          <div>
+            <div class="mb-6">
+              <span class="inline-block px-3.5 py-1.5 rounded-lg border border-burntOrange-500/40 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-wider text-burntOrange-400">PRODUCTION</span>
+            </div>
             
-            <!-- Service Card 01 -->
-            <div class="service-card group relative bg-espresso-950/80 backdrop-blur-2xl p-8 rounded-3xl border border-white/20 hover:border-burntOrange-500 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(234,88,12,0.25)] overflow-hidden">
-              <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-burntOrange-500 via-burntOrange-400 to-transparent"></div>
-              <div class="absolute top-6 right-8 font-display text-8xl font-black text-burntOrange-500/15 group-hover:text-burntOrange-500/30 transition-colors pointer-events-none">01</div>
-
-              <div>
-                <div class="mb-6">
-                  <span class="inline-block px-3.5 py-1.5 rounded-lg border border-burntOrange-500/40 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-wider text-burntOrange-400">FOUNDATION</span>
-                </div>
-                
-                <h3 class="font-display text-2xl sm:text-3xl font-black text-cream mb-6 group-hover:text-burntOrange-400 transition-colors leading-tight">
-                  Strategic Messaging & Positioning
-                </h3>
-              </div>
-
-              <div class="pt-6 border-t border-white/10 space-y-3 text-xs font-mono font-bold uppercase tracking-wider text-cream/90">
-                <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>MessagingWorks™ Workshops</span></div>
-                <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Brand Positioning Platforms</span></div>
-                <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Go-To-Market Storytelling</span></div>
-              </div>
-            </div>
-
-            <!-- Service Card 02 -->
-            <div class="service-card group relative bg-espresso-950/80 backdrop-blur-2xl p-8 rounded-3xl border border-white/20 hover:border-burntOrange-500 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(234,88,12,0.25)] overflow-hidden">
-              <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-burntOrange-500 via-burntOrange-400 to-transparent"></div>
-              <div class="absolute top-6 right-8 font-display text-8xl font-black text-burntOrange-500/15 group-hover:text-burntOrange-500/30 transition-colors pointer-events-none">02</div>
-
-              <div>
-                <div class="mb-6">
-                  <span class="inline-block px-3.5 py-1.5 rounded-lg border border-burntOrange-500/40 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-wider text-burntOrange-400">PRODUCTION</span>
-                </div>
-                
-                <h3 class="font-display text-2xl sm:text-3xl font-black text-cream mb-6 group-hover:text-burntOrange-400 transition-colors leading-tight">
-                  Creative Direction & Campaign Production
-                </h3>
-              </div>
-
-              <div class="pt-6 border-t border-white/10 space-y-3 text-xs font-mono font-bold uppercase tracking-wider text-cream/90">
-                <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Campaign Creative Direction</span></div>
-                <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Multi-Channel Campaign Assets</span></div>
-                <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Advertising Strategy & Execution</span></div>
-              </div>
-            </div>
-
-            <!-- Service Card 03 -->
-            <div class="service-card group relative bg-espresso-950/80 backdrop-blur-2xl p-8 rounded-3xl border border-white/20 hover:border-burntOrange-500 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(234,88,12,0.25)] overflow-hidden">
-              <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-burntOrange-500 via-burntOrange-400 to-transparent"></div>
-              <div class="absolute top-6 right-8 font-display text-8xl font-black text-burntOrange-500/15 group-hover:text-burntOrange-500/30 transition-colors pointer-events-none">03</div>
-
-              <div>
-                <div class="mb-6">
-                  <span class="inline-block px-3.5 py-1.5 rounded-lg border border-burntOrange-500/40 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-wider text-burntOrange-400">DIGITAL</span>
-                </div>
-                
-                <h3 class="font-display text-2xl sm:text-3xl font-black text-cream mb-6 group-hover:text-burntOrange-400 transition-colors leading-tight">
-                  Video & Web Development
-                </h3>
-              </div>
-
-              <div class="pt-6 border-t border-white/10 space-y-3 text-xs font-mono font-bold uppercase tracking-wider text-cream/90">
-                <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Sizzle Reels & Promos</span></div>
-                <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>High-Conversion Modern Web & UX Design</span></div>
-                <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Audio Scoring & Voiceover</span></div>
-              </div>
-            </div>
-
+            <h3 class="font-display text-2xl sm:text-3xl font-black text-cream mb-6 group-hover:text-burntOrange-400 transition-colors leading-tight">
+              Creative Direction & Campaign Production
+            </h3>
           </div>
 
+          <div class="pt-6 border-t border-white/10 space-y-3 text-xs font-mono font-bold uppercase tracking-wider text-cream/90">
+            <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Campaign Creative Direction</span></div>
+            <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Multi-Channel Campaign Assets</span></div>
+            <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Advertising Strategy & Execution</span></div>
+          </div>
         </div>
-      </section>
+
+        <!-- Service Card 03 -->
+        <div class="service-card group relative bg-espresso-950/80 backdrop-blur-2xl p-8 rounded-3xl border border-white/20 hover:border-burntOrange-500 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(234,88,12,0.25)] overflow-hidden">
+          <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-burntOrange-500 via-burntOrange-400 to-transparent"></div>
+          <div class="absolute top-6 right-8 font-display text-8xl font-black text-burntOrange-500/15 group-hover:text-burntOrange-500/30 transition-colors pointer-events-none">03</div>
+
+          <div>
+            <div class="mb-6">
+              <span class="inline-block px-3.5 py-1.5 rounded-lg border border-burntOrange-500/40 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-wider text-burntOrange-400">DIGITAL</span>
+            </div>
+            
+            <h3 class="font-display text-2xl sm:text-3xl font-black text-cream mb-6 group-hover:text-burntOrange-400 transition-colors leading-tight">
+              Video & Web Development
+            </h3>
+          </div>
+
+          <div class="pt-6 border-t border-white/10 space-y-3 text-xs font-mono font-bold uppercase tracking-wider text-cream/90">
+            <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Sizzle Reels & Promos</span></div>
+            <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>High-Conversion Modern Web & UX Design</span></div>
+            <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Audio Scoring & Voiceover</span></div>
+          </div>
+        </div>
+
+      </div>
 
     </div>
-  </div>
+  </section>
 
-  <!-- Vertical Gradient Spacer 2: Bottom Track (#725F53) -> Contact (#1F1815) -->
-  <div class="w-full h-32 bg-gradient-to-b from-espresso-600 to-espresso-950 relative z-20"></div>
+  <!-- Section 03: WORK (Standard Linear Vertical Section) -->
+  <section id="work" class="py-24 bg-espresso-700 text-cream relative z-10 overflow-hidden border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-6 w-full">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
+        <div>
+          <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-burntOrange-500/50 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-widest text-burntOrange-400 mb-4 shadow-sm">
+            03. SELECTED PORTFOLIO
+          </div>
+          <h2 class="font-display text-4xl sm:text-6xl font-black text-cream tracking-tight mt-2">
+            CREATIVE IN ACTION<span class="text-burntOrange-500">.</span>
+          </h2>
+        </div>
+        <p class="text-cream/80 text-sm max-w-md leading-relaxed">
+          Explore strategic messaging frameworks, high-converting web landing pages, cinematic trailers, and original music scores.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3 mb-8 pb-6 border-b border-white/10 text-xs font-semibold uppercase tracking-wider">
+        <button onclick="filterPortfolio('all')" class="filter-btn active px-5 py-2.5 rounded-full border border-burntOrange-500 bg-burntOrange-500 text-white font-bold transition-all" data-filter="all">All Work (6)</button>
+        <button onclick="filterPortfolio('messaging')" class="filter-btn px-5 py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="messaging">Strategic Messaging</button>
+        <button onclick="filterPortfolio('video')" class="filter-btn px-5 py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="video">Video & Animation</button>
+        <button onclick="filterPortfolio('web')" class="filter-btn px-5 py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="web">Web & UX Design</button>
+        <button onclick="filterPortfolio('audio')" class="filter-btn px-5 py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="audio">Audio Scoring</button>
+      </div>
+
+      <!-- Cards Retain Light Cream Surface -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Card 1 -->
+        <div class="portfolio-card group bg-cream rounded-2xl border border-borderDark overflow-hidden hover:border-burntOrange-500/60 transition-all duration-500 flex flex-col justify-between shadow-xl" data-category="messaging web">
+          <div>
+            <div class="relative aspect-video overflow-hidden bg-espresso-900">
+              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Messaging Platform" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
+              <div class="absolute top-4 left-4 flex gap-2">
+                <span class="px-3 py-1 rounded-full bg-cream/90 border border-burntOrange-500/40 text-[10px] font-mono uppercase text-burntOrange-600 font-bold">MessagingWorks™</span>
+              </div>
+            </div>
+            
+            <div class="p-6">
+              <span class="text-xs font-mono text-espresso-900/60 uppercase">Enterprise SaaS Advisory</span>
+              <h3 class="font-display text-xl font-bold text-espresso-900 mt-1 mb-2 group-hover:text-burntOrange-600 transition-colors">Strategic Messaging Architecture</h3>
+              <p class="text-espresso-900/70 text-xs leading-relaxed mb-4 font-light">Condensed complex multi-tier enterprise cloud capabilities into a single-page message platform and unified boilerplate for global sales enablements.</p>
+            </div>
+          </div>
+          <div class="px-6 pb-5 pt-3 border-t border-borderDark flex items-center justify-between text-xs font-mono text-espresso-900/60">
+            <span>Core Deliverable</span><span class="text-burntOrange-600 font-bold group-hover:translate-x-1 transition-transform">View Case Study &rarr;</span>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="portfolio-card group bg-cream rounded-2xl border border-borderDark overflow-hidden hover:border-burntOrange-500/60 transition-all duration-500 flex flex-col justify-between shadow-xl" data-category="video">
+          <div>
+            <div class="relative aspect-video overflow-hidden bg-espresso-900">
+              <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80" alt="Attraction Sizzle" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
+              <div class="absolute top-4 left-4 flex gap-2">
+                <span class="px-3 py-1 rounded-full bg-cream/90 border border-burntOrange-500/40 text-[10px] font-mono uppercase text-burntOrange-600 font-bold">Video Production</span>
+              </div>
+              <div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div class="w-12 h-12 rounded-full bg-burntOrange-500 text-white flex items-center justify-center shadow-xl">
+                  <svg class="w-5 h-5 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+              </div>
+            </div>
+            
+            <div class="p-6">
+              <span class="text-xs font-mono text-espresso-900/60 uppercase">Themed Entertainment</span>
+              <h3 class="font-display text-xl font-bold text-espresso-900 mt-1 mb-2 group-hover:text-burntOrange-600 transition-colors">Cinematic Attraction Showcase</h3>
+              <p class="text-espresso-900/70 text-xs leading-relaxed mb-4 font-light">Directed, edited, and sound-designed a high-impact sizzle trailer showcasing next-generation water ride attractions for global B2B expos.</p>
+            </div>
+          </div>
+          <div class="px-6 pb-5 pt-3 border-t border-borderDark flex items-center justify-between text-xs font-mono text-espresso-900/60">
+            <span>Video & Motion</span><span class="text-burntOrange-600 font-bold group-hover:translate-x-1 transition-transform">Play Reel &rarr;</span>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="portfolio-card group bg-cream rounded-2xl border border-borderDark overflow-hidden hover:border-burntOrange-500/60 transition-all duration-500 flex flex-col justify-between shadow-xl" data-category="web">
+          <div>
+            <div class="relative aspect-video overflow-hidden bg-espresso-900">
+              <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80" alt="Web Showcase" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
+              <div class="absolute top-4 left-4 flex gap-2">
+                <span class="px-3 py-1 rounded-full bg-cream/90 border border-burntOrange-500/40 text-[10px] font-mono uppercase text-burntOrange-600 font-bold">Web Development</span>
+              </div>
+            </div>
+            
+            <div class="p-6">
+              <span class="text-xs font-mono text-espresso-900/60 uppercase">Custom Digital Showcase</span>
+              <h3 class="font-display text-xl font-bold text-espresso-900 mt-1 mb-2 group-hover:text-burntOrange-600 transition-colors">High-Conversion Landing Experience</h3>
+              <p class="text-espresso-900/70 text-xs leading-relaxed mb-4 font-light">Architected a modern React-powered single-page property & service experience featuring interactive photo galleries and automated transparent document packages.</p>
+            </div>
+          </div>
+          <div class="px-6 pb-5 pt-3 border-t border-borderDark flex items-center justify-between text-xs font-mono text-espresso-900/60">
+            <span>Frontend Platform</span><span class="text-burntOrange-600 font-bold group-hover:translate-x-1 transition-transform">Explore Site &rarr;</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Vertical Gradient Spacer 2: Work (#725F53) -> Contact (#1F1815) -->
+  <div class="w-full h-32 bg-gradient-to-b from-espresso-700 to-espresso-950 relative z-20"></div>
 
   <!-- Section 04: Contact Command Center & Integrated Footer -->
   <section id="contact" class="py-32 bg-espresso-950 text-cream border-t border-borderWhite relative z-20 overflow-hidden">
@@ -727,7 +770,6 @@
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
     let topHorizontalST;
-    let bottomHorizontalST;
 
     // 1. Hero Headline Slide-Ins
     let heroTL = gsap.timeline({
@@ -781,30 +823,6 @@
             toggleActions: "play reverse play reverse"
           }
         });
-
-        // Bottom Horizontal Track: SERVICES (0) -> WORK (1)
-        let bottomContainer = document.getElementById("bottom-horizontal-container");
-        
-        let getBottomMaxScroll = () => -(bottomContainer.scrollWidth - window.innerWidth);
-        gsap.set(bottomContainer, { x: getBottomMaxScroll });
-
-        let bottomTL = gsap.timeline({
-          scrollTrigger: {
-            trigger: "#bottom-horizontal-section",
-            pin: true,
-            scrub: 0.15,
-            end: () => "+=" + (bottomContainer.scrollWidth - window.innerWidth),
-            snap: [0, 1], // Pure binary snap: Services (0) or Work (1)
-            invalidateOnRefresh: true,
-          }
-        });
-
-        bottomHorizontalST = bottomTL.scrollTrigger;
-
-        bottomTL.to(bottomContainer, {
-          x: 0,
-          ease: "none"
-        });
       }
     });
 
@@ -854,7 +872,6 @@
 
     function scrollToVision() {
       if (topHorizontalST) {
-        // Direct pixel target to the exact end boundary of the top track
         gsap.to(window, {
           scrollTo: topHorizontalST.end,
           duration: 1.0,
@@ -864,25 +881,27 @@
     }
 
     function scrollToServices() {
-      if (bottomHorizontalST) {
-        // Direct pixel target to the exact start boundary of the bottom track
-        gsap.to(window, {
-          scrollTo: bottomHorizontalST.start,
-          duration: 1.0,
-          ease: "power2.inOut"
-        });
-      }
+      gsap.to(window, {
+        scrollTo: "#pillars",
+        duration: 1.0,
+        ease: "power2.inOut"
+      });
     }
 
     function scrollToWork() {
-      if (bottomHorizontalST) {
-        // Direct pixel target to the exact end boundary of the bottom track
-        gsap.to(window, {
-          scrollTo: bottomHorizontalST.end,
-          duration: 1.0,
-          ease: "power2.inOut"
-        });
-      }
+      gsap.to(window, {
+        scrollTo: "#work",
+        duration: 1.0,
+        ease: "power2.inOut"
+      });
+    }
+
+    function scrollToContact() {
+      gsap.to(window, {
+        scrollTo: "#contact",
+        duration: 1.0,
+        ease: "power2.inOut"
+      });
     }
 
     function toggleModal(show) {
