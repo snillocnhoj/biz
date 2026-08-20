@@ -71,9 +71,9 @@
       mix-blend-mode: lighten;
     }
 
-    /* Orange Tint Filter for Hero Headshot */
+    /* Orange Tint Filter for Headshot */
     .orange-tint-headshot {
-      filter: sepia(100%) hue-rotate(-25deg) saturate(350%) brightness(0.9);
+      filter: sepia(100%) hue-rotate(-25deg) saturate(350%) brightness(0.85);
     }
 
     .portfolio-card {
@@ -94,12 +94,13 @@
       filter: grayscale(0%) opacity(1);
     }
 
-    /* Vector Architectural Drafting Style for "MESSAGING." */
+    /* Vector Architectural Drafting Style for SVG Headlines */
     .blueprint-svg {
       cursor: pointer;
       display: inline-block;
       vertical-align: top;
       height: 1.15em;
+      max-width: 100%;
       width: auto;
       overflow: visible;
     }
@@ -107,24 +108,35 @@
     .blueprint-svg .draft-line {
       stroke: rgba(253, 251, 247, 0.4);
       stroke-width: 1;
-      transition: opacity 0.35s ease;
+      opacity: 1; /* Starts visible on entrance */
     }
 
-    .blueprint-svg .letter-text {
-      fill: none;
+    /* Separate SVG Text Layers for Hardware-Accelerated Opacity Cross-Fading */
+    .blueprint-svg .letter-text-hollow {
+      fill: rgba(0, 0, 0, 0);
       stroke: #EA580C;
-      stroke-width: 3;
-      transition: fill 0.35s ease, stroke 0.35s ease, filter 0.35s ease;
+      stroke-width: 2;
     }
 
-    .blueprint-svg:hover .draft-line {
-      opacity: 0;
+    .blueprint-svg .letter-text-solid {
+      fill: #FDFBF7;
+      stroke: transparent;
+      stroke-width: 0;
+      opacity: 0; /* Starts 0, morphs to 1 on entrance */
     }
 
-    .blueprint-svg:hover .letter-text {
-      fill: #EA580C;
-      stroke: #EA580C;
-      filter: drop-shadow(0px 0px 15px rgba(234, 88, 12, 0.5));
+    /* High-Impact Glow Pop for Hero Headline */
+    .hero-glow-pop {
+      filter: drop-shadow(0 0 35px rgba(234, 88, 12, 0.65));
+      will-change: filter;
+    }
+
+    /* Multi-tone Gradient Text Overlay Class */
+    .gradient-overlay-text {
+      background: linear-gradient(90deg, #FDFBF7 0%, #F97316 50%, #EA580C 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
     }
   </style>
 </head>
@@ -132,25 +144,31 @@
 
   <!-- Header / Navigation -->
   <header class="fixed top-0 left-0 w-full z-50 bg-espresso-950/80 backdrop-blur-xl border-b border-borderWhite">
-    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
       
       <!-- Logo & Company Name -->
-      <a href="javascript:void(0)" onclick="scrollToTop()" class="flex items-center gap-3 group">
-        <img src="./Assets/JC logo larger.jpeg" alt="John Collins" class="h-10 w-auto object-contain blend-lighten group-hover:scale-105 transition-transform">
-        <span class="font-display text-lg font-black tracking-tight text-cream hidden sm:inline-block">
+      <a href="javascript:void(0)" onclick="scrollToTop()" class="flex items-center gap-2 sm:gap-3 group">
+        <img src="./Assets/JC logo larger.jpeg" alt="John Collins" class="h-8 sm:h-10 w-auto object-contain blend-lighten group-hover:scale-105 transition-transform">
+        <span class="font-display text-sm sm:text-lg font-black tracking-tight text-cream">
           JOHN COLLINS CONSULTING<span class="text-burntOrange-500">.</span>
         </span>
       </a>
       
       <!-- Menu Links -->
       <nav class="hidden md:flex space-x-10 text-xs font-bold uppercase tracking-widest text-cream/70">
-        <button onclick="scrollToVision()" class="hover:text-burntOrange-400 transition-colors uppercase">01. Vision</button>
-        <button onclick="scrollToServices()" class="hover:text-burntOrange-400 transition-colors uppercase">02. Services</button>
-        <button onclick="scrollToWork()" class="hover:text-burntOrange-400 transition-colors uppercase">03. Work</button>
-        <button onclick="scrollToContact()" class="hover:text-burntOrange-400 transition-colors uppercase">04. Contact</button>
+        <button onclick="scrollToVision()" class="hover:text-burntOrange-400 transition-colors uppercase">Vision</button>
+        <button onclick="scrollToServices()" class="hover:text-burntOrange-400 transition-colors uppercase">Services</button>
+        <button onclick="scrollToWork()" class="hover:text-burntOrange-400 transition-colors uppercase">Work</button>
+        <button onclick="scrollToContact()" class="hover:text-burntOrange-400 transition-colors uppercase">Contact</button>
       </nav>
 
-      <button onclick="toggleModal(true)" class="group relative px-6 py-2.5 rounded-full bg-burntOrange-500 text-white text-xs font-extrabold uppercase tracking-wider overflow-hidden transition-all hover:bg-burntOrange-600 shadow-lg shadow-burntOrange-500/20">
+      <!-- Mobile Nav Quick Links -->
+      <div class="flex md:hidden items-center gap-3">
+        <button onclick="scrollToVision()" class="text-[10px] font-bold uppercase text-burntOrange-400">Vision</button>
+        <button onclick="scrollToContact()" class="px-3 py-1.5 rounded-full bg-burntOrange-500 text-white text-[10px] font-extrabold uppercase">Contact</button>
+      </div>
+
+      <button onclick="toggleModal(true)" class="hidden md:inline-flex group relative px-6 py-2.5 rounded-full bg-burntOrange-500 text-white text-xs font-extrabold uppercase tracking-wider overflow-hidden transition-all hover:bg-burntOrange-600 shadow-lg shadow-burntOrange-500/20">
         <span class="relative z-10 flex items-center gap-2">
           Watch Reel
           <svg class="w-3 h-3 fill-current group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -159,38 +177,41 @@
     </div>
   </header>
 
-  <!-- Top Horizontal Track: HERO -> Headshot 1 -> VISION (Left to Right) -->
+  <!-- Top Track: HERO -> VISION (Horizontal on MD+, Vertical Stack on Mobile) -->
   <div id="top-horizontal-section" class="relative overflow-hidden bg-espresso-900">
     
-    <div id="top-horizontal-container" class="flex w-max h-screen">
+    <div id="top-horizontal-container" class="flex flex-col md:flex-row md:w-max min-h-screen">
       
       <!-- Panel 1: Main Hero -->
-      <section id="hero" class="w-[100vw] h-screen flex-shrink-0 relative pt-28 pb-12 flex flex-col justify-between bg-transparent z-10 text-cream">
+      <section id="hero" class="w-full md:w-[100vw] min-h-screen flex-shrink-0 relative pt-24 sm:pt-28 pb-12 flex flex-col justify-between bg-transparent z-10 text-cream overflow-hidden">
         
-        <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] bg-burntOrange-glow rounded-full blur-[160px] pointer-events-none"></div>
+        <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[750px] h-[350px] sm:h-[750px] bg-burntOrange-glow rounded-full blur-[100px] sm:blur-[160px] pointer-events-none"></div>
 
-        <div class="relative z-10 max-w-7xl mx-auto px-6 w-full my-auto">
+        <!-- Headshot Layer -->
+        <div class="absolute right-[-12%] sm:right-[-6%] lg:right-[0%] xl:right-[4%] top-0 bottom-0 h-full w-auto pointer-events-none z-0 flex items-center justify-end py-12 sm:py-16">
+          <img id="headshot-img" src="./Assets/headshot.png" alt="John Collins" class="h-full w-auto max-h-[85vh] object-contain blend-lighten opacity-25 orange-tint-headshot">
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full my-auto">
           
-          <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-            <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-burntOrange-500/30 bg-espresso-900/80 backdrop-blur-md text-xs font-semibold tracking-wide text-burntOrange-400">
+          <div class="flex flex-wrap items-center justify-between gap-4 mb-4 sm:mb-6">
+            <div class="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-1.5 rounded-full border border-burntOrange-500/30 bg-espresso-900/80 backdrop-blur-md text-[10px] sm:text-xs font-semibold tracking-wide text-burntOrange-400">
               <span class="w-2 h-2 rounded-full bg-burntOrange-500 animate-ping"></span>
               Strategic Advisory &bull; Creative Direction &bull; Asset Production
             </div>
-            <p class="text-xs uppercase tracking-widest text-cream/60 font-mono">ENTERPRISE TECH, B2B, & THEMED ENTERTAINMENT</p>
+            <p class="text-[10px] sm:text-xs uppercase tracking-widest text-cream/60 font-mono">ENTERPRISE TECH, B2B, & THEMED ENTERTAINMENT</p>
           </div>
 
-          <!-- Headline Lines -->
-          <div class="font-display text-5xl sm:text-7xl lg:text-9xl font-black text-cream tracking-tighter leading-[0.92] mb-8 uppercase space-y-1 overflow-hidden">
-            <div id="hero-line-1" class="text-left">STRATEGIC</div>
-            <div id="hero-line-2" class="text-right sm:pr-12 lg:pr-24">
-              <!-- Full-Sized Architectural Vector Drafted Word -->
+          <!-- Hero Headline Container -->
+          <div id="hero-headline-wrapper" class="font-display text-5xl sm:text-7xl lg:text-9xl font-black text-cream tracking-tighter leading-[0.92] mb-6 sm:mb-8 uppercase space-y-1 relative z-10 hero-glow-pop">
+            
+            <!-- LINE 1: STRATEGIC (Dual-Layer SVG Blueprint Morph) -->
+            <div id="hero-line-1" class="text-left">
               <svg class="blueprint-svg" viewBox="-15 -10 680 120" xmlns="http://www.w3.org/2000/svg">
-                <!-- Short Baseline & Cap-Height Construction Lines -->
                 <line x1="-25" y1="12" x2="675" y2="12" class="draft-line" />
                 <line x1="-25" y1="88" x2="675" y2="88" class="draft-line" />
                 <line x1="-25" y1="50" x2="675" y2="50" class="draft-line" stroke-dasharray="2,2" />
 
-                <!-- Truncated Vertical Drafting Ticks -->
                 <line x1="5" y1="-2" x2="5" y2="102" class="draft-line" />
                 <line x1="68" y1="-2" x2="68" y2="102" class="draft-line" />
                 <line x1="135" y1="-2" x2="135" y2="102" class="draft-line" />
@@ -203,36 +224,66 @@
                 <line x1="605" y1="-2" x2="605" y2="102" class="draft-line" />
                 <line x1="655" y1="-2" x2="655" y2="102" class="draft-line" />
 
-                <!-- Short Diagonal Cross Ticks -->
-                <line x1="-5" y1="95" x2="75" y2="5" class="draft-line" />
-                <line x1="125" y1="95" x2="215" y2="5" class="draft-line" />
-                <line x1="255" y1="5" x2="345" y2="95" class="draft-line" />
-                <line x1="385" y1="95" x2="475" y2="5" class="draft-line" />
-                <line x1="525" y1="5" x2="615" y2="95" class="draft-line" />
+                <!-- Hollow Blueprint Layer (Base) -->
+                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-hollow">STRATEGIC</text>
+                <!-- Solid White Layer (Fades on top) -->
+                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-solid letter-text-str-solid">STRATEGIC</text>
+              </svg>
+            </div>
 
-                <!-- Text Outlines -->
-                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text">MESSAGING.</text>
+            <!-- LINE 2: MESSAGING. (Dual-Layer SVG Blueprint Morph) -->
+            <div id="hero-line-2" class="text-right sm:pr-12 lg:pr-24">
+              <svg class="blueprint-svg" viewBox="-15 -10 680 120" xmlns="http://www.w3.org/2000/svg">
+                <line x1="-25" y1="12" x2="675" y2="12" class="draft-line" />
+                <line x1="-25" y1="88" x2="675" y2="88" class="draft-line" />
+                <line x1="-25" y1="50" x2="675" y2="50" class="draft-line" stroke-dasharray="2,2" />
+
+                <line x1="5" y1="-2" x2="5" y2="102" class="draft-line" />
+                <line x1="68" y1="-2" x2="68" y2="102" class="draft-line" />
+                <line x1="135" y1="-2" x2="135" y2="102" class="draft-line" />
+                <line x1="205" y1="-2" x2="205" y2="102" class="draft-line" />
+                <line x1="270" y1="-2" x2="270" y2="102" class="draft-line" />
+                <line x1="335" y1="-2" x2="335" y2="102" class="draft-line" />
+                <line x1="400" y1="-2" x2="400" y2="102" class="draft-line" />
+                <line x1="470" y1="-2" x2="470" y2="102" class="draft-line" />
+                <line x1="535" y1="-2" x2="535" y2="102" class="draft-line" />
+                <line x1="605" y1="-2" x2="605" y2="102" class="draft-line" />
+                <line x1="655" y1="-2" x2="655" y2="102" class="draft-line" />
+
+                <!-- Hollow Blueprint Layer (Base) -->
+                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-hollow">MESSAGING.</text>
+                <!-- Solid White Layer (Fades on top) -->
+                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-solid letter-text-msg-solid">MESSAGING.</text>
               </svg>
             </div>
             
-            <!-- Shifted Down phrase "COMPELLING CREATIVE" -->
-            <div id="hero-line-3" class="text-left sm:pl-8 lg:pl-16 pt-4 sm:pt-6">COMPELLING</div>
-            <div id="hero-line-4" class="text-right"><span class="text-transparent bg-clip-text bg-gradient-to-r from-cream via-burntOrange-400 to-burntOrange-500">CREATIVE.</span></div>
+            <!-- LINE 3: COMPELLING (Dual-Layer Smooth Fade Morph) -->
+            <div id="hero-line-3" class="text-left sm:pl-8 lg:pl-16 pt-2 sm:pt-6 relative">
+              <span class="text-burntOrange-500">COMPELLING</span>
+              <span class="compelling-gradient-overlay gradient-overlay-text absolute left-0 top-2 sm:top-6 sm:pl-8 lg:pl-16 pointer-events-none">COMPELLING</span>
+            </div>
+            
+            <!-- LINE 4: CREATIVE. (Dual-Layer Smooth Fade Morph) -->
+            <div id="hero-line-4" class="text-right relative">
+              <span class="text-burntOrange-500">CREATIVE.</span>
+              <span class="creative-gradient-overlay gradient-overlay-text absolute right-0 top-0 pointer-events-none">CREATIVE.</span>
+            </div>
+
           </div>
 
-          <div class="flex items-center justify-between pt-6 border-t border-borderWhite">
-            <p class="text-xs uppercase tracking-widest text-cream/60 font-mono">Scroll to explore &rarr;</p>
-            <button onclick="toggleModal(true)" class="px-8 py-4 rounded-xl bg-burntOrange-500 text-white font-extrabold text-xs uppercase tracking-wider hover:bg-burntOrange-600 transition-all flex items-center gap-3 shadow-lg shadow-burntOrange-500/20">
+          <div class="flex items-center justify-between pt-4 sm:pt-6 border-t border-borderWhite relative z-10">
+            <p class="text-[10px] sm:text-xs uppercase tracking-widest text-cream/60 font-mono">Scroll to explore &rarr;</p>
+            <button onclick="toggleModal(true)" class="px-5 sm:px-8 py-3 sm:py-4 rounded-xl bg-burntOrange-500 text-white font-extrabold text-[10px] sm:text-xs uppercase tracking-wider hover:bg-burntOrange-600 transition-all flex items-center gap-2 sm:gap-3 shadow-lg shadow-burntOrange-500/20">
               <span>Play Sizzle Reel</span>
-              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             </button>
           </div>
 
         </div>
 
-        <div class="relative z-10 w-full overflow-hidden py-4 bg-espresso-950/80 border-t border-borderWhite">
+        <div class="relative z-10 w-full overflow-hidden py-3 sm:py-4 bg-espresso-950/80 border-t border-borderWhite">
           <div class="flex whitespace-nowrap animate-marquee">
-            <div class="flex items-center gap-12 text-xs font-extrabold uppercase tracking-widest text-cream/70 px-6 font-display">
+            <div class="flex items-center gap-8 sm:gap-12 text-[10px] sm:text-xs font-extrabold uppercase tracking-widest text-cream/70 px-4 sm:px-6 font-display">
               <span>Strategic Messaging</span> <span class="text-burntOrange-500">&bull;</span>
               <span>Website Creation</span> <span class="text-burntOrange-400">&bull;</span>
               <span>Video Production</span> <span class="text-burntOrange-500">&bull;</span>
@@ -240,7 +291,7 @@
               <span>Advertising & Campaigns</span> <span class="text-burntOrange-500">&bull;</span>
               <span>Brand Positioning</span> <span class="text-burntOrange-400">&bull;</span>
             </div>
-            <div class="flex items-center gap-12 text-xs font-extrabold uppercase tracking-widest text-cream/70 px-6 font-display">
+            <div class="flex items-center gap-8 sm:gap-12 text-[10px] sm:text-xs font-extrabold uppercase tracking-widest text-cream/70 px-4 sm:px-6 font-display">
               <span>Strategic Messaging</span> <span class="text-burntOrange-500">&bull;</span>
               <span>Website Creation</span> <span class="text-burntOrange-400">&bull;</span>
               <span>Video Production</span> <span class="text-burntOrange-500">&bull;</span>
@@ -253,154 +304,144 @@
 
       </section>
 
-      <!-- Panel 2: Headshot 1 Slide (Opacity set to 25% with Orange Wash) -->
-      <section class="w-[35vw] h-screen flex-shrink-0 relative bg-espresso-900 flex items-center justify-start -ml-[22vw] sm:-ml-[18vw] z-0">
-        <div class="relative h-[90vh] flex items-center justify-center overflow-hidden">
-          <img id="headshot-img" src="./Assets/headshot.png" alt="John Collins" class="h-full w-auto object-contain blend-lighten scale-90 opacity-25 orange-tint-headshot">
-        </div>
-      </section>
-
-      <!-- Panel 3: Solution Statement (VISION) + Auto-Scrolling Client Logo Bar -->
-      <section id="solution-statement" class="w-[85vw] lg:w-[80vw] xl:w-[75vw] h-screen flex-shrink-0 relative bg-espresso-900 text-cream pl-2 sm:pl-4 lg:pl-6 pr-12 sm:pr-16 lg:pr-24 flex items-center justify-start z-10 overflow-hidden">
+      <!-- Panel 2: Solution Statement (VISION) -->
+      <section id="solution-statement" class="w-full md:w-[85vw] lg:w-[80vw] min-h-screen flex-shrink-0 relative bg-espresso-900 text-cream px-4 sm:px-6 md:pl-12 md:pr-24 py-16 md:py-0 flex items-center justify-start z-10 overflow-hidden">
 
         <div class="relative z-10 max-w-none w-full">
-          <div class="flex items-center gap-4 mb-6">
-            <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-burntOrange-500/50 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-widest text-burntOrange-400 shadow-sm">
-              01. VISION
-            </div>
-            <span class="text-sm font-extrabold uppercase tracking-widest text-burntOrange-400 font-display">SELL MORE STUFF.</span>
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-xs sm:text-sm font-black uppercase tracking-widest text-burntOrange-400 font-display border-l-2 border-burntOrange-500 pl-3">SELL MORE STUFF.</span>
           </div>
           
-          <blockquote class="font-display text-3xl sm:text-5xl lg:text-[4.75rem] xl:text-[5.5rem] font-black text-cream tracking-tight leading-[1.08] mb-8 whitespace-nowrap">
+          <blockquote class="font-display text-3xl sm:text-6xl lg:text-7xl xl:text-[6.25rem] font-black text-cream tracking-tight leading-[1.08] mb-8 md:whitespace-nowrap">
             <div id="sol-line-1" class="block">“Let's <span class="text-burntOrange-400">clarify your message</span>,</div>
-            <div id="sol-line-2" class="block">produce <span class="text-transparent bg-clip-text bg-gradient-to-r from-cream to-cream/60">content that works</span>,</div>
+            <div id="sol-line-2" class="block">produce <span class="text-transparent bg-clip-text bg-gradient-to-r from-cream via-cream to-burntOrange-400/80">content that works</span>,</div>
             <div id="sol-line-3" class="block">and <span class="text-burntOrange-400 underline decoration-burntOrange-400/40 underline-offset-8">showcase your true value</span></div>
             <div id="sol-line-4" class="block">to the world.”</div>
           </blockquote>
 
-          <div class="flex items-center gap-6 pt-4 mb-8">
-            <div class="w-12 h-[1px] bg-burntOrange-500"></div>
-            <p class="text-xs uppercase tracking-widest text-cream/70 font-mono">John Collins</p>
+          <div class="flex items-center gap-4 sm:gap-6 pt-2 sm:pt-4 mb-6 sm:mb-8">
+            <div class="w-12 sm:w-16 h-[2px] bg-burntOrange-500"></div>
+            <p class="text-xs uppercase tracking-widest text-cream/70 font-mono font-bold">John Collins</p>
           </div>
 
           <!-- Fixed Client Logo Marquee Bar -->
-          <div class="pt-6 border-t border-white/10 w-full overflow-hidden mb-6">
-            <p class="text-[10px] font-mono font-bold uppercase tracking-widest text-burntOrange-400/80 mb-4">Trusted By Leaders In Tech & Entertainment</p>
+          <div class="pt-4 sm:pt-6 border-t border-white/10 w-full overflow-hidden mb-6">
+            <p class="text-[10px] font-mono font-bold uppercase tracking-widest text-burntOrange-400/80 mb-3 sm:mb-4">Trusted By Leaders In Tech & Entertainment</p>
             
             <div class="relative w-full overflow-hidden flex">
-              <div class="flex whitespace-nowrap animate-logo-marquee gap-4">
+              <div class="flex whitespace-nowrap animate-logo-marquee gap-3 sm:gap-4">
                 
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/56688fec718c9-proslide-stacked-r.jpg" alt="ProSlide" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/commvault.png" alt="Commvault" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/hitachi-data-systems-logo_edited.jpg" alt="Hitachi Data Systems" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/Lexis-Nexis-Logo.jpg" alt="LexisNexis" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/technifex.jpeg" alt="Technifex" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/huss_neu_glow.png" alt="Huss Park Attractions" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/tea.jpeg" alt="TEA" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/canada-post-logo.jpg" alt="Canada Post" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/aedp.png" alt="AEDP" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/bmp.jpeg" alt="BMP" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/csm.jpeg" alt="CSM Waterworks" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/DB-LOGO-SITE-4.png" alt="DB Logo" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/download.png" alt="Cliniconex" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/fgr8.png" alt="FGR8" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/gp color.jpeg" alt="GP Color Imaging" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/res rides.jpg" alt="RES Rides" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/resortx.jpg" alt="ResortX" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/themeparx.jpeg" alt="ThemeParkX" class="logo-img max-h-full max-w-full object-contain">
                 </div>
 
               </div>
 
-              <div class="flex whitespace-nowrap animate-logo-marquee gap-4" aria-hidden="true">
+              <div class="flex whitespace-nowrap animate-logo-marquee gap-3 sm:gap-4" aria-hidden="true">
                 
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/56688fec718c9-proslide-stacked-r.jpg" alt="ProSlide" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/commvault.png" alt="Commvault" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/hitachi-data-systems-logo_edited.jpg" alt="Hitachi Data Systems" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/Lexis-Nexis-Logo.jpg" alt="LexisNexis" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/technifex.jpeg" alt="Technifex" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/huss_neu_glow.png" alt="Huss Park Attractions" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/tea.jpeg" alt="TEA" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/canada-post-logo.jpg" alt="Canada Post" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/aedp.png" alt="AEDP" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/bmp.jpeg" alt="BMP" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/csm.jpeg" alt="CSM Waterworks" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/DB-LOGO-SITE-4.png" alt="DB Logo" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/download.png" alt="Cliniconex" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/fgr8.png" alt="FGR8" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/gp color.jpeg" alt="GP Color Imaging" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/res rides.jpg" alt="RES Rides" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/resortx.jpg" alt="ResortX" class="logo-img max-h-full max-w-full object-contain">
                 </div>
-                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-12 flex items-center justify-center overflow-hidden">
+                <div class="logo-card bg-white p-1.5 rounded-lg shadow-md border border-transparent hover:border-burntOrange-500 transition-all flex-shrink-0 w-28 sm:w-36 h-10 sm:h-12 flex items-center justify-center overflow-hidden">
                   <img src="./Assets/Client logos/themeparx.jpeg" alt="ThemeParkX" class="logo-img max-h-full max-w-full object-contain">
                 </div>
 
@@ -411,7 +452,7 @@
 
           <!-- Navigation Cue under Logo Bar -->
           <div class="flex items-center justify-between pt-2">
-            <button onclick="scrollToServices()" class="group inline-flex items-center gap-3 text-xs font-mono font-bold uppercase tracking-widest text-burntOrange-400 hover:text-burntOrange-500 transition-colors">
+            <button onclick="scrollToServices()" class="group inline-flex items-center gap-2 sm:gap-3 text-[10px] sm:text-xs font-mono font-bold uppercase tracking-widest text-burntOrange-400 hover:text-burntOrange-500 transition-colors">
               <span class="w-1.5 h-1.5 rounded-full bg-burntOrange-500 group-hover:scale-125 transition-transform"></span>
               <span>Scroll Down to Services</span>
               <svg class="w-3.5 h-3.5 fill-current animate-bounce text-burntOrange-400" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
@@ -428,45 +469,42 @@
   </div>
 
   <!-- Vertical Gradient Spacer 1: Top Track (#2C221E) -> Services (#725F53) -->
-  <div class="w-full h-32 bg-gradient-to-b from-espresso-900 to-espresso-600 relative z-20"></div>
+  <div class="w-full h-20 sm:h-32 bg-gradient-to-b from-espresso-900 to-espresso-600 relative z-20"></div>
 
-  <!-- Section 02: SERVICES (Standard Linear Vertical Section) -->
-  <section id="pillars" class="py-24 bg-espresso-600 text-cream relative z-10 overflow-hidden">
-    <div class="max-w-7xl mx-auto px-6 w-full">
+  <!-- Section 02: SERVICES -->
+  <section id="pillars" class="py-16 sm:py-24 bg-espresso-600 text-cream relative z-10 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 w-full">
       
-      <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-10 gap-6">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-8 sm:mb-12 gap-4 sm:gap-6">
         <div>
-          <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-burntOrange-500/50 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-widest text-burntOrange-400 mb-4 shadow-sm">
-            02. SERVICES
-          </div>
-          <h2 class="font-display text-4xl sm:text-6xl lg:text-7xl font-black text-cream tracking-tight uppercase">
-            TELLING YOUR STORY<span class="text-burntOrange-500">.</span>
+          <h2 class="font-display text-4xl sm:text-7xl lg:text-8xl font-black text-cream tracking-tight uppercase leading-none">
+            TELL YOUR <span class="text-transparent bg-clip-text bg-gradient-to-r from-burntOrange-400 to-burntOrange-500">STORY.</span>
           </h2>
         </div>
-        <p class="text-cream/90 text-base sm:text-lg max-w-lg leading-relaxed font-light">
+        <p class="text-cream/90 text-base sm:text-xl max-w-lg leading-relaxed font-light">
           Showcase your brand with fundamental strategic guidance and world-class asset production.
         </p>
       </div>
 
       <!-- High-Pop Glassmorphic 3-Column Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
         
         <!-- Service Card 01 -->
-        <div class="service-card group relative bg-espresso-950/80 backdrop-blur-2xl p-8 rounded-3xl border border-white/20 hover:border-burntOrange-500 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(234,88,12,0.25)] overflow-hidden">
+        <div class="service-card group relative bg-espresso-950/80 backdrop-blur-2xl p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/20 hover:border-burntOrange-500 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(234,88,12,0.25)] overflow-hidden">
           <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-burntOrange-500 via-burntOrange-400 to-transparent"></div>
-          <div class="absolute top-6 right-8 font-display text-8xl font-black text-burntOrange-500/15 group-hover:text-burntOrange-500/30 transition-colors pointer-events-none">01</div>
+          <div class="absolute top-4 sm:top-6 right-6 sm:right-8 font-display text-6xl sm:text-8xl font-black text-burntOrange-500/15 group-hover:text-burntOrange-500/30 transition-colors pointer-events-none">01</div>
 
           <div>
-            <div class="mb-6">
-              <span class="inline-block px-3.5 py-1.5 rounded-lg border border-burntOrange-500/40 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-wider text-burntOrange-400">FOUNDATION</span>
+            <div class="mb-4 sm:mb-6">
+              <span class="inline-block px-3 py-1.5 rounded-lg border border-burntOrange-500/40 bg-burntOrange-500/20 text-[10px] sm:text-xs font-mono font-extrabold uppercase tracking-wider text-burntOrange-400">FOUNDATION</span>
             </div>
             
-            <h3 class="font-display text-2xl sm:text-3xl font-black text-cream mb-6 group-hover:text-burntOrange-400 transition-colors leading-tight">
+            <h3 class="font-display text-xl sm:text-3xl font-black text-cream mb-4 sm:mb-6 group-hover:text-burntOrange-400 transition-colors leading-tight">
               Strategic Messaging & Positioning
             </h3>
           </div>
 
-          <div class="pt-6 border-t border-white/10 space-y-3 text-xs font-mono font-bold uppercase tracking-wider text-cream/90">
+          <div class="pt-4 sm:pt-6 border-t border-white/10 space-y-2.5 sm:space-y-3 text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-cream/90">
             <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>MessagingWorks™ Workshops</span></div>
             <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Brand Positioning Platforms</span></div>
             <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Go-To-Market Storytelling</span></div>
@@ -474,21 +512,21 @@
         </div>
 
         <!-- Service Card 02 -->
-        <div class="service-card group relative bg-espresso-950/80 backdrop-blur-2xl p-8 rounded-3xl border border-white/20 hover:border-burntOrange-500 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(234,88,12,0.25)] overflow-hidden">
+        <div class="service-card group relative bg-espresso-950/80 backdrop-blur-2xl p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/20 hover:border-burntOrange-500 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(234,88,12,0.25)] overflow-hidden">
           <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-burntOrange-500 via-burntOrange-400 to-transparent"></div>
-          <div class="absolute top-6 right-8 font-display text-8xl font-black text-burntOrange-500/15 group-hover:text-burntOrange-500/30 transition-colors pointer-events-none">02</div>
+          <div class="absolute top-4 sm:top-6 right-6 sm:right-8 font-display text-6xl sm:text-8xl font-black text-burntOrange-500/15 group-hover:text-burntOrange-500/30 transition-colors pointer-events-none">02</div>
 
           <div>
-            <div class="mb-6">
-              <span class="inline-block px-3.5 py-1.5 rounded-lg border border-burntOrange-500/40 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-wider text-burntOrange-400">PRODUCTION</span>
+            <div class="mb-4 sm:mb-6">
+              <span class="inline-block px-3 py-1.5 rounded-lg border border-burntOrange-500/40 bg-burntOrange-500/20 text-[10px] sm:text-xs font-mono font-extrabold uppercase tracking-wider text-burntOrange-400">PRODUCTION</span>
             </div>
             
-            <h3 class="font-display text-2xl sm:text-3xl font-black text-cream mb-6 group-hover:text-burntOrange-400 transition-colors leading-tight">
+            <h3 class="font-display text-xl sm:text-3xl font-black text-cream mb-4 sm:mb-6 group-hover:text-burntOrange-400 transition-colors leading-tight">
               Creative Direction & Campaign Production
             </h3>
           </div>
 
-          <div class="pt-6 border-t border-white/10 space-y-3 text-xs font-mono font-bold uppercase tracking-wider text-cream/90">
+          <div class="pt-4 sm:pt-6 border-t border-white/10 space-y-2.5 sm:space-y-3 text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-cream/90">
             <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Campaign Creative Direction</span></div>
             <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Multi-Channel Campaign Assets</span></div>
             <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Advertising Strategy & Execution</span></div>
@@ -496,21 +534,21 @@
         </div>
 
         <!-- Service Card 03 -->
-        <div class="service-card group relative bg-espresso-950/80 backdrop-blur-2xl p-8 rounded-3xl border border-white/20 hover:border-burntOrange-500 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(234,88,12,0.25)] overflow-hidden">
+        <div class="service-card group relative bg-espresso-950/80 backdrop-blur-2xl p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/20 hover:border-burntOrange-500 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(234,88,12,0.25)] overflow-hidden">
           <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-burntOrange-500 via-burntOrange-400 to-transparent"></div>
-          <div class="absolute top-6 right-8 font-display text-8xl font-black text-burntOrange-500/15 group-hover:text-burntOrange-500/30 transition-colors pointer-events-none">03</div>
+          <div class="absolute top-4 sm:top-6 right-6 sm:right-8 font-display text-6xl sm:text-8xl font-black text-burntOrange-500/15 group-hover:text-burntOrange-500/30 transition-colors pointer-events-none">03</div>
 
           <div>
-            <div class="mb-6">
-              <span class="inline-block px-3.5 py-1.5 rounded-lg border border-burntOrange-500/40 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-wider text-burntOrange-400">DIGITAL</span>
+            <div class="mb-4 sm:mb-6">
+              <span class="inline-block px-3 py-1.5 rounded-lg border border-burntOrange-500/40 bg-burntOrange-500/20 text-[10px] sm:text-xs font-mono font-extrabold uppercase tracking-wider text-burntOrange-400">DIGITAL</span>
             </div>
             
-            <h3 class="font-display text-2xl sm:text-3xl font-black text-cream mb-6 group-hover:text-burntOrange-400 transition-colors leading-tight">
+            <h3 class="font-display text-xl sm:text-3xl font-black text-cream mb-4 sm:mb-6 group-hover:text-burntOrange-400 transition-colors leading-tight">
               Video & Web Development
             </h3>
           </div>
 
-          <div class="pt-6 border-t border-white/10 space-y-3 text-xs font-mono font-bold uppercase tracking-wider text-cream/90">
+          <div class="pt-4 sm:pt-6 border-t border-white/10 space-y-2.5 sm:space-y-3 text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-cream/90">
             <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Sizzle Reels & Promos</span></div>
             <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>High-Conversion Modern Web & UX Design</span></div>
             <div class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-burntOrange-500"></span><span>Audio Scoring & Voiceover</span></div>
@@ -522,34 +560,35 @@
     </div>
   </section>
 
-  <!-- Section 03: WORK (Standard Linear Vertical Section) -->
-  <section id="work" class="py-24 bg-espresso-700 text-cream relative z-10 overflow-hidden border-t border-white/10">
-    <div class="max-w-7xl mx-auto px-6 w-full">
+  <!-- Vertical Gradient Spacer: Services (#725F53) -> Work (#5A4A41) -->
+  <div class="w-full h-20 sm:h-32 bg-gradient-to-b from-espresso-600 to-espresso-700 relative z-20"></div>
+
+  <!-- Section 03: WORK -->
+  <section id="work" class="py-16 sm:py-24 bg-espresso-700 text-cream relative z-10 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 w-full">
       
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-10 gap-4 sm:gap-6">
         <div>
-          <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-burntOrange-500/50 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-widest text-burntOrange-400 mb-4 shadow-sm">
-            03. SELECTED PORTFOLIO
-          </div>
-          <h2 class="font-display text-4xl sm:text-6xl font-black text-cream tracking-tight mt-2">
-            CREATIVE IN ACTION<span class="text-burntOrange-500">.</span>
+          <h2 class="font-display text-4xl sm:text-7xl lg:text-8xl font-black tracking-tight uppercase leading-[0.95] text-cream">
+            <div class="text-burntOrange-500 block">CREATIVE</div>
+            <div class="text-cream block">IN ACTION.</div>
           </h2>
         </div>
-        <p class="text-cream/80 text-sm max-w-md leading-relaxed">
+        <p class="text-cream/80 text-xs sm:text-base max-w-md leading-relaxed">
           Explore strategic messaging frameworks, high-converting web landing pages, cinematic trailers, and original music scores.
         </p>
       </div>
 
-      <div class="flex flex-wrap items-center gap-3 mb-8 pb-6 border-b border-white/10 text-xs font-semibold uppercase tracking-wider">
-        <button onclick="filterPortfolio('all')" class="filter-btn active px-5 py-2.5 rounded-full border border-burntOrange-500 bg-burntOrange-500 text-white font-bold transition-all" data-filter="all">All Work (6)</button>
-        <button onclick="filterPortfolio('messaging')" class="filter-btn px-5 py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="messaging">Strategic Messaging</button>
-        <button onclick="filterPortfolio('video')" class="filter-btn px-5 py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="video">Video & Animation</button>
-        <button onclick="filterPortfolio('web')" class="filter-btn px-5 py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="web">Web & UX Design</button>
-        <button onclick="filterPortfolio('audio')" class="filter-btn px-5 py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="audio">Audio Scoring</button>
+      <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-6 sm:mb-8 pb-4 sm:pb-6 border-b border-white/10 text-[10px] sm:text-xs font-semibold uppercase tracking-wider">
+        <button onclick="filterPortfolio('all')" class="filter-btn active px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-burntOrange-500 bg-burntOrange-500 text-white font-bold transition-all" data-filter="all">All Work (6)</button>
+        <button onclick="filterPortfolio('messaging')" class="filter-btn px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="messaging">Strategic Messaging</button>
+        <button onclick="filterPortfolio('video')" class="filter-btn px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="video">Video & Animation</button>
+        <button onclick="filterPortfolio('web')" class="filter-btn px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="web">Web & UX Design</button>
+        <button onclick="filterPortfolio('audio')" class="filter-btn px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="audio">Audio Scoring</button>
       </div>
 
       <!-- Cards Retain Light Cream Surface -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         
         <!-- Card 1 -->
         <div class="portfolio-card group bg-cream rounded-2xl border border-borderDark overflow-hidden hover:border-burntOrange-500/60 transition-all duration-500 flex flex-col justify-between shadow-xl" data-category="messaging web">
@@ -561,13 +600,13 @@
               </div>
             </div>
             
-            <div class="p-6">
-              <span class="text-xs font-mono text-espresso-900/60 uppercase">Enterprise SaaS Advisory</span>
-              <h3 class="font-display text-xl font-bold text-espresso-900 mt-1 mb-2 group-hover:text-burntOrange-600 transition-colors">Strategic Messaging Architecture</h3>
+            <div class="p-5 sm:p-6">
+              <span class="text-[10px] sm:text-xs font-mono text-espresso-900/60 uppercase">Enterprise SaaS Advisory</span>
+              <h3 class="font-display text-lg sm:text-xl font-bold text-espresso-900 mt-1 mb-2 group-hover:text-burntOrange-600 transition-colors">Strategic Messaging Architecture</h3>
               <p class="text-espresso-900/70 text-xs leading-relaxed mb-4 font-light">Condensed complex multi-tier enterprise cloud capabilities into a single-page message platform and unified boilerplate for global sales enablements.</p>
             </div>
           </div>
-          <div class="px-6 pb-5 pt-3 border-t border-borderDark flex items-center justify-between text-xs font-mono text-espresso-900/60">
+          <div class="px-5 sm:px-6 pb-4 sm:pb-5 pt-3 border-t border-borderDark flex items-center justify-between text-[10px] sm:text-xs font-mono text-espresso-900/60">
             <span>Core Deliverable</span><span class="text-burntOrange-600 font-bold group-hover:translate-x-1 transition-transform">View Case Study &rarr;</span>
           </div>
         </div>
@@ -587,13 +626,13 @@
               </div>
             </div>
             
-            <div class="p-6">
-              <span class="text-xs font-mono text-espresso-900/60 uppercase">Themed Entertainment</span>
-              <h3 class="font-display text-xl font-bold text-espresso-900 mt-1 mb-2 group-hover:text-burntOrange-600 transition-colors">Cinematic Attraction Showcase</h3>
+            <div class="p-5 sm:p-6">
+              <span class="text-[10px] sm:text-xs font-mono text-espresso-900/60 uppercase">Themed Entertainment</span>
+              <h3 class="font-display text-lg sm:text-xl font-bold text-espresso-900 mt-1 mb-2 group-hover:text-burntOrange-600 transition-colors">Cinematic Attraction Showcase</h3>
               <p class="text-espresso-900/70 text-xs leading-relaxed mb-4 font-light">Directed, edited, and sound-designed a high-impact sizzle trailer showcasing next-generation water ride attractions for global B2B expos.</p>
             </div>
           </div>
-          <div class="px-6 pb-5 pt-3 border-t border-borderDark flex items-center justify-between text-xs font-mono text-espresso-900/60">
+          <div class="px-5 sm:px-6 pb-4 sm:pb-5 pt-3 border-t border-borderDark flex items-center justify-between text-[10px] sm:text-xs font-mono text-espresso-900/60">
             <span>Video & Motion</span><span class="text-burntOrange-600 font-bold group-hover:translate-x-1 transition-transform">Play Reel &rarr;</span>
           </div>
         </div>
@@ -608,13 +647,13 @@
               </div>
             </div>
             
-            <div class="p-6">
-              <span class="text-xs font-mono text-espresso-900/60 uppercase">Custom Digital Showcase</span>
-              <h3 class="font-display text-xl font-bold text-espresso-900 mt-1 mb-2 group-hover:text-burntOrange-600 transition-colors">High-Conversion Landing Experience</h3>
+            <div class="p-5 sm:p-6">
+              <span class="text-[10px] sm:text-xs font-mono text-espresso-900/60 uppercase">Custom Digital Showcase</span>
+              <h3 class="font-display text-lg sm:text-xl font-bold text-espresso-900 mt-1 mb-2 group-hover:text-burntOrange-600 transition-colors">High-Conversion Landing Experience</h3>
               <p class="text-espresso-900/70 text-xs leading-relaxed mb-4 font-light">Architected a modern React-powered single-page property & service experience featuring interactive photo galleries and automated transparent document packages.</p>
             </div>
           </div>
-          <div class="px-6 pb-5 pt-3 border-t border-borderDark flex items-center justify-between text-xs font-mono text-espresso-900/60">
+          <div class="px-5 sm:px-6 pb-4 sm:pb-5 pt-3 border-t border-borderDark flex items-center justify-between text-[10px] sm:text-xs font-mono text-espresso-900/60">
             <span>Frontend Platform</span><span class="text-burntOrange-600 font-bold group-hover:translate-x-1 transition-transform">Explore Site &rarr;</span>
           </div>
         </div>
@@ -625,47 +664,44 @@
   </section>
 
   <!-- Vertical Gradient Spacer 2: Work (#725F53) -> Contact (#1F1815) -->
-  <div class="w-full h-32 bg-gradient-to-b from-espresso-700 to-espresso-950 relative z-20"></div>
+  <div class="w-full h-20 sm:h-32 bg-gradient-to-b from-espresso-700 to-espresso-950 relative z-20"></div>
 
-  <!-- Section 04: Contact Command Center & Integrated Footer -->
-  <section id="contact" class="py-32 bg-espresso-950 text-cream border-t border-borderWhite relative z-20 overflow-hidden">
+  <!-- Section 04: CONTACT -->
+  <section id="contact" class="py-20 sm:py-32 bg-espresso-950 text-cream border-t border-borderWhite relative z-20 overflow-hidden">
     
-    <div class="absolute bottom-0 right-0 w-[700px] h-[700px] bg-burntOrange-glow rounded-full blur-[200px] pointer-events-none"></div>
+    <div class="absolute bottom-0 right-0 w-[350px] sm:w-[700px] h-[350px] sm:h-[700px] bg-burntOrange-glow rounded-full blur-[100px] sm:blur-[200px] pointer-events-none"></div>
 
-    <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
       
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start mb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mb-16 sm:mb-24">
         
         <!-- Left Title & Direct Access Info -->
-        <div class="lg:col-span-5 space-y-8">
+        <div class="lg:col-span-5 xl:col-span-5 space-y-6 sm:space-y-8">
           <div>
-            <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-burntOrange-500/50 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-widest text-burntOrange-400 mb-4 shadow-sm">
-              04. START A PROJECT
-            </div>
-            <h2 class="font-display text-4xl sm:text-6xl font-black text-cream tracking-tight uppercase leading-none">
-              LET'S BUILD SOMETHING<span class="text-burntOrange-500">.</span>
+            <h2 class="font-display text-4xl sm:text-6xl xl:text-7xl font-black text-cream tracking-tight uppercase leading-[0.98]">
+              LET'S BUILD <span class="text-burntOrange-500 block">SOMETHING.</span>
             </h2>
           </div>
 
-          <p class="text-cream/80 text-base leading-relaxed font-light">
+          <p class="text-cream/80 text-sm sm:text-base leading-relaxed font-light max-w-md">
             Ready to clarify your core narrative, produce high-impact campaign assets, or launch a world-class digital experience? Let's connect directly.
           </p>
 
-          <div class="space-y-4 pt-4 border-t border-white/10">
-            <div class="group p-6 rounded-2xl bg-espresso-900/80 border border-white/10 hover:border-burntOrange-500/60 transition-all flex items-center justify-between">
+          <div class="space-y-3 sm:space-y-4 pt-4 border-t border-white/10 max-w-md">
+            <div class="group p-5 sm:p-6 rounded-2xl bg-espresso-900/80 border border-white/10 hover:border-burntOrange-500/60 transition-all flex items-center justify-between">
               <div>
                 <p class="text-[10px] font-mono uppercase tracking-widest text-burntOrange-400 font-bold mb-1">Direct Strategy Advisory</p>
-                <p class="font-display text-lg font-bold text-cream">MessagingWorks™ Consultation</p>
+                <p class="font-display text-base sm:text-lg font-bold text-cream">MessagingWorks™ Consultation</p>
               </div>
-              <a href="mailto:john@johncollins.biz" class="w-10 h-10 rounded-full bg-burntOrange-500 text-white flex items-center justify-center hover:scale-110 transition-transform">
+              <a href="mailto:john@johncollins.biz" class="w-9 sm:w-10 h-9 sm:h-10 rounded-full bg-burntOrange-500 text-white flex items-center justify-center hover:scale-110 transition-transform">
                 <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-7.85-1.42 1.42L16.86 11H5v2z"/></svg>
               </a>
             </div>
 
-            <div class="p-6 rounded-2xl bg-espresso-900/80 border border-white/10 flex items-center justify-between">
+            <div class="p-5 sm:p-6 rounded-2xl bg-espresso-900/80 border border-white/10 flex items-center justify-between">
               <div>
                 <p class="text-[10px] font-mono uppercase tracking-widest text-cream/50 font-bold mb-1">Location Base</p>
-                <p class="font-display text-base font-semibold text-cream">British Columbia, Canada</p>
+                <p class="font-display text-sm sm:text-base font-semibold text-cream">British Columbia, Canada</p>
               </div>
               <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
             </div>
@@ -673,25 +709,25 @@
         </div>
 
         <!-- Right Interactive Contact Form -->
-        <div class="lg:col-span-7 bg-espresso-900/90 backdrop-blur-2xl p-8 sm:p-12 rounded-3xl border border-white/20 shadow-2xl">
+        <div class="lg:col-span-7 xl:col-span-7 bg-espresso-900/90 backdrop-blur-2xl p-6 sm:p-12 rounded-2xl sm:rounded-3xl border border-white/20 shadow-2xl">
           
-          <form onsubmit="event.preventDefault(); alert('Thank you! Your project inquiry has been logged.');" class="space-y-6">
+          <form onsubmit="event.preventDefault(); alert('Thank you! Your project inquiry has been logged.');" class="space-y-4 sm:space-y-6">
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label class="block text-xs font-mono font-bold uppercase tracking-wider text-burntOrange-400 mb-2">Your Name *</label>
-                <input type="text" required placeholder="John Doe" class="w-full px-4 py-3.5 rounded-xl bg-espresso-950 border border-white/15 text-cream placeholder-cream/30 text-sm focus:outline-none focus:border-burntOrange-500 transition-colors">
+                <label class="block text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-burntOrange-400 mb-2">Your Name *</label>
+                <input type="text" required placeholder="John Doe" class="w-full px-4 py-3 rounded-xl bg-espresso-950 border border-white/15 text-cream placeholder-cream/30 text-sm focus:outline-none focus:border-burntOrange-500 transition-colors">
               </div>
 
               <div>
-                <label class="block text-xs font-mono font-bold uppercase tracking-wider text-burntOrange-400 mb-2">Corporate Email *</label>
-                <input type="email" required placeholder="john@company.com" class="w-full px-4 py-3.5 rounded-xl bg-espresso-950 border border-white/15 text-cream placeholder-cream/30 text-sm focus:outline-none focus:border-burntOrange-500 transition-colors">
+                <label class="block text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-burntOrange-400 mb-2">Corporate Email *</label>
+                <input type="email" required placeholder="john@company.com" class="w-full px-4 py-3 rounded-xl bg-espresso-950 border border-white/15 text-cream placeholder-cream/30 text-sm focus:outline-none focus:border-burntOrange-500 transition-colors">
               </div>
             </div>
 
             <div>
-              <label class="block text-xs font-mono font-bold uppercase tracking-wider text-burntOrange-400 mb-2">Primary Domain / Industry</label>
-              <select class="w-full px-4 py-3.5 rounded-xl bg-espresso-950 border border-white/15 text-cream text-sm focus:outline-none focus:border-burntOrange-500 transition-colors">
+              <label class="block text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-burntOrange-400 mb-2">Primary Domain / Industry</label>
+              <select class="w-full px-4 py-3 rounded-xl bg-espresso-950 border border-white/15 text-cream text-sm focus:outline-none focus:border-burntOrange-500 transition-colors">
                 <option value="tech">Enterprise Tech / SaaS</option>
                 <option value="entertainment">Themed Entertainment & Attractions</option>
                 <option value="other">B2B Commercial & Specialty Services</option>
@@ -699,17 +735,17 @@
             </div>
 
             <div>
-              <label class="block text-xs font-mono font-bold uppercase tracking-wider text-burntOrange-400 mb-2">Services Needed</label>
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <label class="flex items-center gap-2 p-3 rounded-xl bg-espresso-950 border border-white/10 text-xs font-mono text-cream/90 cursor-pointer hover:border-burntOrange-500/50 transition-colors">
+              <label class="block text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-burntOrange-400 mb-2">Services Needed</label>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
+                <label class="flex items-center gap-2 p-2.5 sm:p-3 rounded-xl bg-espresso-950 border border-white/10 text-xs font-mono text-cream/90 cursor-pointer hover:border-burntOrange-500/50 transition-colors">
                   <input type="checkbox" class="accent-burntOrange-500">
                   <span>MessagingWorks™</span>
                 </label>
-                <label class="flex items-center gap-2 p-3 rounded-xl bg-espresso-950 border border-white/10 text-xs font-mono text-cream/90 cursor-pointer hover:border-burntOrange-500/50 transition-colors">
+                <label class="flex items-center gap-2 p-2.5 sm:p-3 rounded-xl bg-espresso-950 border border-white/10 text-xs font-mono text-cream/90 cursor-pointer hover:border-burntOrange-500/50 transition-colors">
                   <input type="checkbox" class="accent-burntOrange-500">
                   <span>Campaign Video</span>
                 </label>
-                <label class="flex items-center gap-2 p-3 rounded-xl bg-espresso-950 border border-white/10 text-xs font-mono text-cream/90 cursor-pointer hover:border-burntOrange-500/50 transition-colors">
+                <label class="flex items-center gap-2 p-2.5 sm:p-3 rounded-xl bg-espresso-950 border border-white/10 text-xs font-mono text-cream/90 cursor-pointer hover:border-burntOrange-500/50 transition-colors">
                   <input type="checkbox" class="accent-burntOrange-500">
                   <span>Web Platform</span>
                 </label>
@@ -717,11 +753,11 @@
             </div>
 
             <div>
-              <label class="block text-xs font-mono font-bold uppercase tracking-wider text-burntOrange-400 mb-2">Project Brief & Strategic Goals</label>
-              <textarea rows="4" placeholder="Tell me about your product, audience, timeline, or key objectives..." class="w-full px-4 py-3.5 rounded-xl bg-espresso-950 border border-white/15 text-cream placeholder-cream/30 text-sm focus:outline-none focus:border-burntOrange-500 transition-colors"></textarea>
+              <label class="block text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-burntOrange-400 mb-2">Project Brief & Strategic Goals</label>
+              <textarea rows="4" placeholder="Tell me about your product, audience, timeline, or key objectives..." class="w-full px-4 py-3 rounded-xl bg-espresso-950 border border-white/15 text-cream placeholder-cream/30 text-sm focus:outline-none focus:border-burntOrange-500 transition-colors"></textarea>
             </div>
 
-            <button type="submit" class="w-full py-4 rounded-xl bg-burntOrange-500 text-white font-extrabold text-xs uppercase tracking-widest hover:bg-burntOrange-600 transition-all shadow-xl shadow-burntOrange-500/25 flex items-center justify-center gap-3">
+            <button type="submit" class="w-full py-3.5 sm:py-4 rounded-xl bg-burntOrange-500 text-white font-extrabold text-xs uppercase tracking-widest hover:bg-burntOrange-600 transition-all shadow-xl shadow-burntOrange-500/25 flex items-center justify-center gap-3">
               <span>Send Advisory Inquiry</span>
               <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
             </button>
@@ -733,7 +769,7 @@
       </div>
 
       <!-- Integrated Footer Bar inside Section 04 Container -->
-      <div class="pt-12 border-t border-white/10 flex flex-col md:flex-row items-center justify-between text-xs font-mono text-cream/50 gap-6">
+      <div class="pt-8 sm:pt-12 border-t border-white/10 flex flex-col md:flex-row items-center justify-between text-xs font-mono text-cream/50 gap-4 sm:gap-6">
         <div>
           <p>&copy; 2026 John Collins Consulting. All rights reserved.</p>
         </div>
@@ -758,7 +794,7 @@
   <!-- Video Modal -->
   <div id="videoModal" class="fixed inset-0 z-50 hidden bg-espresso-950/95 backdrop-blur-2xl flex items-center justify-center p-4">
     <div class="relative w-full max-w-5xl aspect-video bg-espresso-900 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-      <button onclick="toggleModal(false)" class="absolute top-4 right-4 z-10 w-12 h-12 rounded-full bg-black/80 text-white flex items-center justify-center hover:bg-burntOrange-500 transition-all">&times;</button>
+      <button onclick="toggleModal(false)" class="absolute top-4 right-4 z-10 w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-black/80 text-white flex items-center justify-center hover:bg-burntOrange-500 transition-all">&times;</button>
       <video id="modalVideo" class="w-full h-full object-cover" controls>
         <source src="./Assets/JCC Sizzle 2026.mp4" type="video/mp4">
       </video>
@@ -771,7 +807,7 @@
 
     let topHorizontalST;
 
-    // 1. Hero Headline Slide-Ins
+    // 1. Initial Entrance Timeline: Slide-in + Hardware-Accelerated Opacity Cross-Fade (Blueprint -> Solid)
     let heroTL = gsap.timeline({
       scrollTrigger: {
         trigger: "#top-horizontal-section",
@@ -780,15 +816,37 @@
       }
     });
 
-    heroTL.from("#hero-line-1", { x: -500, opacity: 0, duration: 1.8, ease: "power3.out" }, 0)
-          .from("#hero-line-2", { x: 500, opacity: 0, duration: 1.8, ease: "power3.out" }, 0.2)
-          .from("#hero-line-3", { x: -500, opacity: 0, duration: 1.8, ease: "power3.out" }, 0.4)
-          .from("#hero-line-4", { x: 500, opacity: 0, duration: 1.8, ease: "power3.out" }, 0.6);
+    // Headline Position Slide-Ins
+    heroTL.from("#hero-line-1", { x: -300, opacity: 0, duration: 1.4, ease: "power3.out" }, 0)
+          .from("#hero-line-2", { x: 300, opacity: 0, duration: 1.4, ease: "power3.out" }, 0.2)
+          .from("#hero-line-3", { x: -300, opacity: 0, duration: 1.5, ease: "power3.out" }, 0.4)
+          .from("#hero-line-4", { x: 300, opacity: 0, duration: 1.4, ease: "power3.out" }, 0.6);
 
+    // Automatic Entrance Morph for STRATEGIC MESSAGING (Cross-fade Solid White layer over Hollow Outline)
+    heroTL.to(".letter-text-solid", {
+      opacity: 1,
+      duration: 1.2,
+      ease: "power2.inOut"
+    }, 0.5);
+
+    heroTL.to("#hero .draft-line", {
+      opacity: 0,
+      duration: 1.2,
+      ease: "power2.inOut"
+    }, 0.5);
+
+    // Automatic Entrance Morph for COMPELLING CREATIVE (Gradient Overlay Fades out to reveal Solid Orange)
+    heroTL.to(".compelling-gradient-overlay, .creative-gradient-overlay", {
+      opacity: 0,
+      duration: 1.2,
+      ease: "power2.inOut"
+    }, 0.5);
+
+
+    // Responsive GSAP Media Query (Pin Horizontal on Desktop Only, Exit Morphing Synced Paced Across Scroll)
     ScrollTrigger.matchMedia({
       "(min-width: 768px)": function() {
         
-        // Top Horizontal Track: HERO (0) -> VISION (1)
         let topContainer = document.getElementById("top-horizontal-container");
         
         let topTL = gsap.timeline({
@@ -804,12 +862,44 @@
 
         topHorizontalST = topTL.scrollTrigger;
 
+        // Scrubbed Horizontal Slide Transition
         topTL.to(topContainer, {
           x: () => -(topContainer.scrollWidth - window.innerWidth),
           ease: "none"
-        });
+        }, 0);
 
-        // Solution Quote Lines Entrance
+        // -------------------------------------------------------------
+        // SMOOTH, HARDWARE-ACCELERATED EXIT MORPH (Paced across 70% of scroll gesture)
+        // -------------------------------------------------------------
+        
+        // 1. Glow Falloff smoothly across scroll-away
+        topTL.to("#hero-headline-wrapper", {
+          filter: "drop-shadow(0 0 0px rgba(234, 88, 12, 0))",
+          ease: "none",
+          duration: 0.6
+        }, 0);
+
+        // 2. STRATEGIC MESSAGING: Solid White Fades to reveal Hollow Blueprint & Draft Lines
+        topTL.to(".letter-text-solid", {
+          opacity: 0,
+          ease: "none",
+          duration: 0.7
+        }, 0);
+
+        topTL.to("#hero .draft-line", {
+          opacity: 1,
+          ease: "none",
+          duration: 0.7
+        }, 0);
+
+        // 3. COMPELLING CREATIVE: Gradient Overlay smoothly fades back in over Solid Orange
+        topTL.to(".compelling-gradient-overlay, .creative-gradient-overlay", {
+          opacity: 1,
+          ease: "none",
+          duration: 0.7
+        }, 0);
+
+        // Solution Quote Lines Entrance Animation for Pinned Track
         gsap.from(["#sol-line-1", "#sol-line-2", "#sol-line-3", "#sol-line-4"], {
           x: 120,
           opacity: 0,
@@ -871,9 +961,15 @@
     }
 
     function scrollToVision() {
-      if (topHorizontalST) {
+      if (window.innerWidth >= 768 && topHorizontalST) {
         gsap.to(window, {
           scrollTo: topHorizontalST.end,
+          duration: 1.0,
+          ease: "power2.inOut"
+        });
+      } else {
+        gsap.to(window, {
+          scrollTo: "#solution-statement",
           duration: 1.0,
           ease: "power2.inOut"
         });
