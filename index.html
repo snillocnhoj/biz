@@ -108,13 +108,19 @@
     .blueprint-svg .draft-line {
       stroke: rgba(253, 251, 247, 0.4);
       stroke-width: 1;
-      opacity: 1; /* Starts visible on entrance */
+      opacity: 1;
     }
 
-    /* Separate SVG Text Layers for Hardware-Accelerated Opacity Cross-Fading */
+    /* SVG Text Layers for Hardware-Accelerated Opacity Morphing */
     .blueprint-svg .letter-text-hollow {
       fill: rgba(0, 0, 0, 0);
       stroke: #EA580C;
+      stroke-width: 2;
+    }
+
+    .blueprint-svg .letter-text-hollow-white {
+      fill: rgba(0, 0, 0, 0);
+      stroke: #FDFBF7;
       stroke-width: 2;
     }
 
@@ -122,7 +128,14 @@
       fill: #FDFBF7;
       stroke: transparent;
       stroke-width: 0;
-      opacity: 0; /* Starts 0, morphs to 1 on entrance */
+      opacity: 0;
+    }
+
+    .blueprint-svg .letter-text-solid-orange {
+      fill: #EA580C;
+      stroke: transparent;
+      stroke-width: 0;
+      opacity: 0;
     }
 
     /* High-Impact Glow Pop for Hero Headline */
@@ -137,6 +150,14 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       color: transparent;
+    }
+
+    .services-gradient-overlay {
+      background: linear-gradient(90deg, #F97316 0%, #EA580C 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      opacity: 0;
     }
   </style>
 </head>
@@ -478,19 +499,48 @@
       <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-8 sm:mb-12 gap-4 sm:gap-6">
         <div>
           <h2 class="font-display text-4xl sm:text-7xl lg:text-8xl font-black text-cream tracking-tight uppercase leading-none">
-            TELL YOUR <span class="text-transparent bg-clip-text bg-gradient-to-r from-burntOrange-400 to-burntOrange-500">STORY.</span>
+            
+            <!-- TELL YOUR (Line 1: Slides from Left, Morphs to Solid White) -->
+            <div id="services-line-1" class="block">
+              <svg class="blueprint-svg" viewBox="-15 -10 580 120" xmlns="http://www.w3.org/2000/svg">
+                <line x1="-25" y1="12" x2="575" y2="12" class="draft-line services-draft-line" />
+                <line x1="-25" y1="88" x2="575" y2="88" class="draft-line services-draft-line" />
+                <line x1="-25" y1="50" x2="575" y2="50" class="draft-line services-draft-line" stroke-dasharray="2,2" />
+
+                <line x1="5" y1="-2" x2="5" y2="102" class="draft-line services-draft-line" />
+                <line x1="75" y1="-2" x2="75" y2="102" class="draft-line services-draft-line" />
+                <line x1="155" y1="-2" x2="155" y2="102" class="draft-line services-draft-line" />
+                <line x1="235" y1="-2" x2="235" y2="102" class="draft-line services-draft-line" />
+                <line x1="315" y1="-2" x2="315" y2="102" class="draft-line services-draft-line" />
+                <line x1="395" y1="-2" x2="395" y2="102" class="draft-line services-draft-line" />
+                <line x1="475" y1="-2" x2="475" y2="102" class="draft-line services-draft-line" />
+
+                <!-- Base Hollow White Outline Layer -->
+                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-hollow-white">TELL YOUR</text>
+                <!-- Solid White Overlay Layer (Fades in on Scrub) -->
+                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-solid services-line1-solid">TELL YOUR</text>
+              </svg>
+            </div>
+
+            <!-- STORY. (Line 2: Slides from Right, Morphs to Gradient Orange) -->
+            <div id="services-line-2" class="block relative">
+              <span id="services-story-solid" class="text-burntOrange-500">STORY.</span>
+              <span id="services-story-gradient" class="services-gradient-overlay absolute left-0 top-0 pointer-events-none">STORY.</span>
+            </div>
+
           </h2>
         </div>
-        <p class="text-cream/90 text-base sm:text-xl max-w-lg leading-relaxed font-light">
+
+        <p id="services-desc-text" class="text-cream/90 text-base sm:text-xl max-w-lg leading-relaxed font-light">
           Showcase your brand with fundamental strategic guidance and world-class asset production.
         </p>
       </div>
 
-      <!-- High-Pop Glassmorphic 3-Column Grid -->
+      <!-- Service Cards Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
         
-        <!-- Service Card 01 -->
-        <div class="service-card group relative bg-espresso-950/80 backdrop-blur-2xl p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/20 hover:border-burntOrange-500 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(234,88,12,0.25)] overflow-hidden">
+        <!-- Service Card 01 (Slides from Left) -->
+        <div id="service-card-1" class="service-card group relative bg-espresso-950/80 backdrop-blur-2xl p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/20 hover:border-burntOrange-500 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(234,88,12,0.25)] overflow-hidden">
           <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-burntOrange-500 via-burntOrange-400 to-transparent"></div>
           <div class="absolute top-4 sm:top-6 right-6 sm:right-8 font-display text-6xl sm:text-8xl font-black text-burntOrange-500/15 group-hover:text-burntOrange-500/30 transition-colors pointer-events-none">01</div>
 
@@ -511,8 +561,8 @@
           </div>
         </div>
 
-        <!-- Service Card 02 -->
-        <div class="service-card group relative bg-espresso-950/80 backdrop-blur-2xl p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/20 hover:border-burntOrange-500 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(234,88,12,0.25)] overflow-hidden">
+        <!-- Service Card 02 (Slides from Left) -->
+        <div id="service-card-2" class="service-card group relative bg-espresso-950/80 backdrop-blur-2xl p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/20 hover:border-burntOrange-500 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(234,88,12,0.25)] overflow-hidden">
           <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-burntOrange-500 via-burntOrange-400 to-transparent"></div>
           <div class="absolute top-4 sm:top-6 right-6 sm:right-8 font-display text-6xl sm:text-8xl font-black text-burntOrange-500/15 group-hover:text-burntOrange-500/30 transition-colors pointer-events-none">02</div>
 
@@ -533,8 +583,8 @@
           </div>
         </div>
 
-        <!-- Service Card 03 -->
-        <div class="service-card group relative bg-espresso-950/80 backdrop-blur-2xl p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/20 hover:border-burntOrange-500 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(234,88,12,0.25)] overflow-hidden">
+        <!-- Service Card 03 (Slides from Right) -->
+        <div id="service-card-3" class="service-card group relative bg-espresso-950/80 backdrop-blur-2xl p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/20 hover:border-burntOrange-500 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(234,88,12,0.25)] overflow-hidden">
           <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-burntOrange-500 via-burntOrange-400 to-transparent"></div>
           <div class="absolute top-4 sm:top-6 right-6 sm:right-8 font-display text-6xl sm:text-8xl font-black text-burntOrange-500/15 group-hover:text-burntOrange-500/30 transition-colors pointer-events-none">03</div>
 
@@ -568,18 +618,60 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 w-full">
       
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-10 gap-4 sm:gap-6">
-        <div>
+        
+        <!-- Work Headline -->
+        <div id="work-headline-container">
           <h2 class="font-display text-4xl sm:text-7xl lg:text-8xl font-black tracking-tight uppercase leading-[0.95] text-cream">
-            <div class="text-burntOrange-500 block">CREATIVE</div>
-            <div class="text-cream block">IN ACTION.</div>
+            
+            <!-- CREATIVE -->
+            <div id="work-line-1" class="block">
+              <svg class="blueprint-svg" viewBox="-15 -10 520 120" xmlns="http://www.w3.org/2000/svg">
+                <line x1="-25" y1="12" x2="515" y2="12" class="draft-line work-draft-line" />
+                <line x1="-25" y1="88" x2="515" y2="88" class="draft-line work-draft-line" />
+                <line x1="-25" y1="50" x2="515" y2="50" class="draft-line work-draft-line" stroke-dasharray="2,2" />
+
+                <line x1="5" y1="-2" x2="5" y2="102" class="draft-line work-draft-line" />
+                <line x1="90" y1="-2" x2="90" y2="102" class="draft-line work-draft-line" />
+                <line x1="175" y1="-2" x2="175" y2="102" class="draft-line work-draft-line" />
+                <line x1="260" y1="-2" x2="260" y2="102" class="draft-line work-draft-line" />
+                <line x1="345" y1="-2" x2="345" y2="102" class="draft-line work-draft-line" />
+                <line x1="430" y1="-2" x2="430" y2="102" class="draft-line work-draft-line" />
+
+                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-hollow">CREATIVE</text>
+                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-solid-orange work-line1-solid">CREATIVE</text>
+              </svg>
+            </div>
+
+            <!-- IN ACTION. -->
+            <div id="work-line-2" class="block">
+              <svg class="blueprint-svg" viewBox="-15 -10 580 120" xmlns="http://www.w3.org/2000/svg">
+                <line x1="-25" y1="12" x2="575" y2="12" class="draft-line work-draft-line" />
+                <line x1="-25" y1="88" x2="575" y2="88" class="draft-line work-draft-line" />
+                <line x1="-25" y1="50" x2="575" y2="50" class="draft-line work-draft-line" stroke-dasharray="2,2" />
+
+                <line x1="5" y1="-2" x2="5" y2="102" class="draft-line work-draft-line" />
+                <line x1="85" y1="-2" x2="85" y2="102" class="draft-line work-draft-line" />
+                <line x1="175" y1="-2" x2="175" y2="102" class="draft-line work-draft-line" />
+                <line x1="265" y1="-2" x2="265" y2="102" class="draft-line work-draft-line" />
+                <line x1="355" y1="-2" x2="355" y2="102" class="draft-line work-draft-line" />
+                <line x1="445" y1="-2" x2="445" y2="102" class="draft-line work-draft-line" />
+                <line x1="525" y1="-2" x2="525" y2="102" class="draft-line work-draft-line" />
+
+                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-hollow-white">IN ACTION.</text>
+                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-solid work-line2-solid">IN ACTION.</text>
+              </svg>
+            </div>
+
           </h2>
         </div>
-        <p class="text-cream/80 text-xs sm:text-base max-w-md leading-relaxed">
+
+        <p id="work-desc-text" class="text-cream/80 text-xs sm:text-base max-w-md leading-relaxed">
           Explore strategic messaging frameworks, high-converting web landing pages, cinematic trailers, and original music scores.
         </p>
       </div>
 
-      <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-6 sm:mb-8 pb-4 sm:pb-6 border-b border-white/10 text-[10px] sm:text-xs font-semibold uppercase tracking-wider">
+      <!-- Filter Buttons -->
+      <div id="work-filter-bar" class="flex flex-wrap items-center gap-2 sm:gap-3 mb-6 sm:mb-8 pb-4 sm:pb-6 border-b border-white/10 text-[10px] sm:text-xs font-semibold uppercase tracking-wider">
         <button onclick="filterPortfolio('all')" class="filter-btn active px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-burntOrange-500 bg-burntOrange-500 text-white font-bold transition-all" data-filter="all">All Work (6)</button>
         <button onclick="filterPortfolio('messaging')" class="filter-btn px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="messaging">Strategic Messaging</button>
         <button onclick="filterPortfolio('video')" class="filter-btn px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="video">Video & Animation</button>
@@ -587,11 +679,11 @@
         <button onclick="filterPortfolio('audio')" class="filter-btn px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-white/20 bg-espresso-950/80 text-cream hover:border-burntOrange-500 transition-all" data-filter="audio">Audio Scoring</button>
       </div>
 
-      <!-- Cards Retain Light Cream Surface -->
+      <!-- Work Cards Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         
-        <!-- Card 1 -->
-        <div class="portfolio-card group bg-cream rounded-2xl border border-borderDark overflow-hidden hover:border-burntOrange-500/60 transition-all duration-500 flex flex-col justify-between shadow-xl" data-category="messaging web">
+        <!-- Card 1 (Slides from Left) -->
+        <div id="work-card-1" class="portfolio-card group bg-cream rounded-2xl border border-borderDark overflow-hidden hover:border-burntOrange-500/60 transition-all duration-500 flex flex-col justify-between shadow-xl" data-category="messaging web">
           <div>
             <div class="relative aspect-video overflow-hidden bg-espresso-900">
               <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Messaging Platform" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
@@ -611,8 +703,8 @@
           </div>
         </div>
 
-        <!-- Card 2 -->
-        <div class="portfolio-card group bg-cream rounded-2xl border border-borderDark overflow-hidden hover:border-burntOrange-500/60 transition-all duration-500 flex flex-col justify-between shadow-xl" data-category="video">
+        <!-- Card 2 (Slides from Right) -->
+        <div id="work-card-2" class="portfolio-card group bg-cream rounded-2xl border border-borderDark overflow-hidden hover:border-burntOrange-500/60 transition-all duration-500 flex flex-col justify-between shadow-xl" data-category="video">
           <div>
             <div class="relative aspect-video overflow-hidden bg-espresso-900">
               <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80" alt="Attraction Sizzle" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
@@ -637,8 +729,8 @@
           </div>
         </div>
 
-        <!-- Card 3 -->
-        <div class="portfolio-card group bg-cream rounded-2xl border border-borderDark overflow-hidden hover:border-burntOrange-500/60 transition-all duration-500 flex flex-col justify-between shadow-xl" data-category="web">
+        <!-- Card 3 (Slides from Right) -->
+        <div id="work-card-3" class="portfolio-card group bg-cream rounded-2xl border border-borderDark overflow-hidden hover:border-burntOrange-500/60 transition-all duration-500 flex flex-col justify-between shadow-xl" data-category="web">
           <div>
             <div class="relative aspect-video overflow-hidden bg-espresso-900">
               <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80" alt="Web Showcase" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
@@ -675,11 +767,50 @@
       
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mb-16 sm:mb-24">
         
-        <!-- Left Title & Direct Access Info -->
-        <div class="lg:col-span-5 xl:col-span-5 space-y-6 sm:space-y-8">
+        <!-- Left Panel: Text & Direct Access Info -->
+        <div id="contact-left-col" class="lg:col-span-5 xl:col-span-5 space-y-6 sm:space-y-8">
           <div>
             <h2 class="font-display text-4xl sm:text-6xl xl:text-7xl font-black text-cream tracking-tight uppercase leading-[0.98]">
-              LET'S BUILD <span class="text-burntOrange-500 block">SOMETHING.</span>
+              
+              <!-- LET'S BUILD -->
+              <div id="contact-line-1" class="block">
+                <svg class="blueprint-svg" viewBox="-15 -10 600 120" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="-25" y1="12" x2="595" y2="12" class="draft-line contact-draft-line" />
+                  <line x1="-25" y1="88" x2="595" y2="88" class="draft-line contact-draft-line" />
+                  <line x1="-25" y1="50" x2="595" y2="50" class="draft-line contact-draft-line" stroke-dasharray="2,2" />
+
+                  <line x1="5" y1="-2" x2="5" y2="102" class="draft-line contact-draft-line" />
+                  <line x1="85" y1="-2" x2="85" y2="102" class="draft-line contact-draft-line" />
+                  <line x1="175" y1="-2" x2="175" y2="102" class="draft-line contact-draft-line" />
+                  <line x1="265" y1="-2" x2="265" y2="102" class="draft-line contact-draft-line" />
+                  <line x1="355" y1="-2" x2="355" y2="102" class="draft-line contact-draft-line" />
+                  <line x1="445" y1="-2" x2="445" y2="102" class="draft-line contact-draft-line" />
+
+                  <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="92" letter-spacing="-2" class="letter-text-hollow-white">LET'S BUILD</text>
+                  <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="92" letter-spacing="-2" class="letter-text-solid contact-line1-solid">LET'S BUILD</text>
+                </svg>
+              </div>
+
+              <!-- SOMETHING. -->
+              <div id="contact-line-2" class="block">
+                <svg class="blueprint-svg" viewBox="-15 -10 640 120" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="-25" y1="12" x2="635" y2="12" class="draft-line contact-draft-line" />
+                  <line x1="-25" y1="88" x2="635" y2="88" class="draft-line contact-draft-line" />
+                  <line x1="-25" y1="50" x2="635" y2="50" class="draft-line contact-draft-line" stroke-dasharray="2,2" />
+
+                  <line x1="5" y1="-2" x2="5" y2="102" class="draft-line contact-draft-line" />
+                  <line x1="75" y1="-2" x2="75" y2="102" class="draft-line contact-draft-line" />
+                  <line x1="155" y1="-2" x2="155" y2="102" class="draft-line contact-draft-line" />
+                  <line x1="235" y1="-2" x2="235" y2="102" class="draft-line contact-draft-line" />
+                  <line x1="315" y1="-2" x2="315" y2="102" class="draft-line contact-draft-line" />
+                  <line x1="395" y1="-2" x2="395" y2="102" class="draft-line contact-draft-line" />
+                  <line x1="475" y1="-2" x2="475" y2="102" class="draft-line contact-draft-line" />
+
+                  <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="92" letter-spacing="-2" class="letter-text-hollow">SOMETHING.</text>
+                  <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="92" letter-spacing="-2" class="letter-text-solid-orange contact-line2-solid">SOMETHING.</text>
+                </svg>
+              </div>
+
             </h2>
           </div>
 
@@ -708,8 +839,8 @@
           </div>
         </div>
 
-        <!-- Right Interactive Contact Form -->
-        <div class="lg:col-span-7 xl:col-span-7 bg-espresso-900/90 backdrop-blur-2xl p-6 sm:p-12 rounded-2xl sm:rounded-3xl border border-white/20 shadow-2xl">
+        <!-- Right Interactive Contact Form Card -->
+        <div id="contact-form-card" class="lg:col-span-7 xl:col-span-7 bg-espresso-900/90 backdrop-blur-2xl p-6 sm:p-12 rounded-2xl sm:rounded-3xl border border-white/20 shadow-2xl">
           
           <form onsubmit="event.preventDefault(); alert('Thank you! Your project inquiry has been logged.');" class="space-y-4 sm:space-y-6">
             
@@ -822,7 +953,7 @@
           .from("#hero-line-3", { x: -300, opacity: 0, duration: 1.5, ease: "power3.out" }, 0.4)
           .from("#hero-line-4", { x: 300, opacity: 0, duration: 1.4, ease: "power3.out" }, 0.6);
 
-    // Automatic Entrance Morph for STRATEGIC MESSAGING (Cross-fade Solid White layer over Hollow Outline)
+    // Automatic Entrance Morph for STRATEGIC MESSAGING
     heroTL.to(".letter-text-solid", {
       opacity: 1,
       duration: 1.2,
@@ -835,7 +966,7 @@
       ease: "power2.inOut"
     }, 0.5);
 
-    // Automatic Entrance Morph for COMPELLING CREATIVE (Gradient Overlay Fades out to reveal Solid Orange)
+    // Automatic Entrance Morph for COMPELLING CREATIVE
     heroTL.to(".compelling-gradient-overlay, .creative-gradient-overlay", {
       opacity: 0,
       duration: 1.2,
@@ -843,7 +974,7 @@
     }, 0.5);
 
 
-    // Responsive GSAP Media Query (Pin Horizontal on Desktop Only, Exit Morphing Synced Paced Across Scroll)
+    // Responsive GSAP Media Query (Pin Horizontal on Desktop Only)
     ScrollTrigger.matchMedia({
       "(min-width: 768px)": function() {
         
@@ -855,7 +986,7 @@
             pin: true,
             scrub: 0.15,
             end: () => "+=" + (topContainer.scrollWidth - window.innerWidth),
-            snap: [0, 1], // Pure binary snap: Hero (0) or Vision (1)
+            snap: [0, 1],
             invalidateOnRefresh: true,
           }
         });
@@ -868,18 +999,13 @@
           ease: "none"
         }, 0);
 
-        // -------------------------------------------------------------
-        // SMOOTH, HARDWARE-ACCELERATED EXIT MORPH (Paced across 70% of scroll gesture)
-        // -------------------------------------------------------------
-        
-        // 1. Glow Falloff smoothly across scroll-away
+        // Hero Exit Morphing
         topTL.to("#hero-headline-wrapper", {
           filter: "drop-shadow(0 0 0px rgba(234, 88, 12, 0))",
           ease: "none",
           duration: 0.6
         }, 0);
 
-        // 2. STRATEGIC MESSAGING: Solid White Fades to reveal Hollow Blueprint & Draft Lines
         topTL.to(".letter-text-solid", {
           opacity: 0,
           ease: "none",
@@ -892,14 +1018,13 @@
           duration: 0.7
         }, 0);
 
-        // 3. COMPELLING CREATIVE: Gradient Overlay smoothly fades back in over Solid Orange
         topTL.to(".compelling-gradient-overlay, .creative-gradient-overlay", {
           opacity: 1,
           ease: "none",
           duration: 0.7
         }, 0);
 
-        // Solution Quote Lines Entrance Animation for Pinned Track
+        // Solution Quote Lines Entrance
         gsap.from(["#sol-line-1", "#sol-line-2", "#sol-line-3", "#sol-line-4"], {
           x: 120,
           opacity: 0,
@@ -916,41 +1041,102 @@
       }
     });
 
-    // Services Cards Entrance
-    gsap.fromTo(".service-card", 
-      { y: 50, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power3.out",
-        clearProps: "all",
-        scrollTrigger: {
-          trigger: "#pillars",
-          start: "top 80%",
-          toggleActions: "play none none none"
-        }
+    // -------------------------------------------------------------
+    // SERVICES SECTION: SCRUB SIDE-ENTRANCE & ARCHITECTURAL MORPH
+    // -------------------------------------------------------------
+    let servicesTL = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#pillars",
+        start: "top 85%",
+        end: "top 25%",
+        scrub: 0.5
       }
+    });
+
+    // Slide-in from Left: Line 1 (TELL YOUR)
+    servicesTL.from("#services-line-1", { x: -260, opacity: 0, ease: "power2.out" }, 0);
+
+    // Explicit fromTo Animations for Service Cards
+    servicesTL.fromTo("#service-card-1", 
+      { x: -220, opacity: 0 }, 
+      { x: 0, opacity: 1, ease: "power2.out", clearProps: "transform" }, 0.15
+    ).fromTo("#service-card-2", 
+      { x: -220, opacity: 0 }, 
+      { x: 0, opacity: 1, ease: "power2.out", clearProps: "transform" }, 0.25
     );
 
-    // Portfolio Cards Entrance
-    gsap.fromTo(".portfolio-card", 
-      { y: 60, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power3.out",
-        clearProps: "all",
-        scrollTrigger: {
-          trigger: "#work",
-          start: "top 80%",
-          toggleActions: "play none none none"
-        }
+    // Slide-in from Right: Line 2 (STORY.), Description Text, Service Card 3
+    servicesTL.from("#services-line-2", { x: 260, opacity: 0, ease: "power2.out" }, 0.05)
+              .from("#services-desc-text", { x: 180, opacity: 0, ease: "power2.out" }, 0.1)
+              .fromTo("#service-card-3", 
+                { x: 250, opacity: 0 }, 
+                { x: 0, opacity: 1, ease: "power2.out", clearProps: "transform" }, 0.3
+              );
+
+    // Scrub Morphing: Architectural Outlines -> Solid States
+    servicesTL.to(".services-line1-solid", { opacity: 1, ease: "power2.inOut" }, 0.15)
+              .to("#services-story-gradient", { opacity: 1, ease: "power2.inOut" }, 0.2)
+              .to(".services-draft-line", { opacity: 0, ease: "power2.inOut" }, 0.2);
+
+    // -------------------------------------------------------------
+    // WORK SECTION: SCRUB SIDE-ENTRANCE & ARCHITECTURAL MORPH
+    // -------------------------------------------------------------
+    let workTL = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#work",
+        start: "top 85%",
+        end: "top 25%",
+        scrub: 0.5
       }
-    );
+    });
+
+    // Slide-in from Left: Line 1 (CREATIVE), Filter Bar, Card 1
+    workTL.from("#work-line-1", { x: -250, opacity: 0, ease: "power2.out" }, 0)
+          .from("#work-filter-bar", { x: -180, opacity: 0, ease: "power2.out" }, 0.1)
+          .fromTo("#work-card-1", 
+            { x: -220, opacity: 0 }, 
+            { x: 0, opacity: 1, ease: "power2.out", clearProps: "transform" }, 0.2
+          );
+
+    // Slide-in from Right: Line 2 (IN ACTION.), Description Text, Cards 2 & 3
+    workTL.from("#work-line-2", { x: 250, opacity: 0, ease: "power2.out" }, 0.05)
+          .from("#work-desc-text", { x: 180, opacity: 0, ease: "power2.out" }, 0.1)
+          .fromTo("#work-card-2", 
+            { x: 220, opacity: 0 }, 
+            { x: 0, opacity: 1, ease: "power2.out", clearProps: "transform" }, 0.25
+          )
+          .fromTo("#work-card-3", 
+            { x: 280, opacity: 0 }, 
+            { x: 0, opacity: 1, ease: "power2.out", clearProps: "transform" }, 0.3
+          );
+
+    // Scrub Morphing: Architectural Hollow Outlines -> Solid States
+    workTL.to(".work-line1-solid", { opacity: 1, ease: "power2.inOut" }, 0.15)
+          .to(".work-line2-solid", { opacity: 1, ease: "power2.inOut" }, 0.2)
+          .to(".work-draft-line", { opacity: 0, ease: "power2.inOut" }, 0.2);
+
+    // -------------------------------------------------------------
+    // CONTACT SECTION: SCRUB SIDE-ENTRANCE & ARCHITECTURAL MORPH
+    // -------------------------------------------------------------
+    let contactTL = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#contact",
+        start: "top 85%",
+        end: "top 25%",
+        scrub: 0.5
+      }
+    });
+
+    // Left Panel Elements Slide from Left
+    contactTL.from("#contact-left-col", { x: -280, opacity: 0, ease: "power2.out" }, 0);
+
+    // Contact Form Card Slides from Right
+    contactTL.from("#contact-form-card", { x: 280, opacity: 0, ease: "power2.out" }, 0.1);
+
+    // Scrub Morphing: Architectural Hollow Outlines -> Solid States
+    contactTL.to(".contact-line1-solid", { opacity: 1, ease: "power2.inOut" }, 0.15)
+             .to(".contact-line2-solid", { opacity: 1, ease: "power2.inOut" }, 0.2)
+             .to(".contact-draft-line", { opacity: 0, ease: "power2.inOut" }, 0.2);
 
     function scrollToTop() {
       gsap.to(window, {
