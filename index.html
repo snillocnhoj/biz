@@ -203,7 +203,9 @@
 
         <div class="relative z-10 max-w-none w-full">
           <div class="flex items-center gap-4 mb-6">
-            <div class="w-8 h-[2px] bg-burntOrange-500"></div>
+            <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-burntOrange-500/50 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-widest text-burntOrange-400 shadow-sm">
+              01. VISION
+            </div>
             <span class="text-sm font-extrabold uppercase tracking-widest text-burntOrange-400 font-display">SELL MORE STUFF.</span>
           </div>
           
@@ -376,9 +378,11 @@
           
           <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
             <div>
-              <span class="text-xs font-bold uppercase tracking-widest text-burntOrange-400 font-mono">03. Selected Portfolio</span>
+              <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-burntOrange-500/50 bg-burntOrange-500/20 text-xs font-mono font-extrabold uppercase tracking-widest text-burntOrange-400 mb-4 shadow-sm">
+                03. SELECTED PORTFOLIO
+              </div>
               <h2 class="font-display text-4xl sm:text-6xl font-black text-cream tracking-tight mt-2">
-                CREATIVE IN ACTION.
+                CREATIVE IN ACTION<span class="text-burntOrange-500">.</span>
               </h2>
             </div>
             <p class="text-cream/80 text-sm max-w-md leading-relaxed">
@@ -742,31 +746,16 @@
     ScrollTrigger.matchMedia({
       "(min-width: 768px)": function() {
         
-        // Top Horizontal Track: HERO (0%) -> SOLUTION (100%)
+        // Top Horizontal Track: HERO (0) -> VISION (1)
         let topContainer = document.getElementById("top-horizontal-container");
-        let solutionSec = document.getElementById("solution-statement");
         
         let topTL = gsap.timeline({
           scrollTrigger: {
             trigger: "#top-horizontal-section",
             pin: true,
-            scrub: 0.5,
-            end: () => "+=300%",
-            snap: {
-              // Calculate exact scroll progress where Solution content panel lines up full-screen
-              snapTo: (progress) => {
-                let maxScroll = topContainer.scrollWidth - window.innerWidth;
-                let solProgress = solutionSec.offsetLeft / maxScroll;
-                let targets = [0, solProgress]; // Strict stops: Hero (0) & Solution
-                let closest = targets.reduce((prev, curr) => Math.abs(curr - progress) < Math.abs(prev - progress) ? curr : prev);
-                return closest;
-              },
-              duration: { min: 0.4, max: 0.8 },
-              delay: 0.01,         // Snap catches immediately on scroll pause
-              ease: "power2.inOut",
-              directional: true,
-              inertia: false       // Eliminates floaty overscroll momentum
-            },
+            scrub: 0.15,
+            end: () => "+=" + (topContainer.scrollWidth - window.innerWidth),
+            snap: [0, 1], // Pure binary snap: Hero (0) or Vision (1)
             invalidateOnRefresh: true,
           }
         });
@@ -793,9 +782,8 @@
           }
         });
 
-        // Bottom Horizontal Track: SERVICES (100%) -> WORK (0%)
+        // Bottom Horizontal Track: SERVICES (0) -> WORK (1)
         let bottomContainer = document.getElementById("bottom-horizontal-container");
-        let workSec = document.getElementById("work");
         
         let getBottomMaxScroll = () => -(bottomContainer.scrollWidth - window.innerWidth);
         gsap.set(bottomContainer, { x: getBottomMaxScroll });
@@ -804,23 +792,9 @@
           scrollTrigger: {
             trigger: "#bottom-horizontal-section",
             pin: true,
-            scrub: 0.5,
-            end: () => "+=300%",
-            snap: {
-              // Calculate exact scroll progress where Work content panel lines up full-screen
-              snapTo: (progress) => {
-                let maxScroll = bottomContainer.scrollWidth - window.innerWidth;
-                let workProgress = (bottomContainer.scrollWidth - window.innerWidth - workSec.offsetLeft) / maxScroll;
-                let targets = [0, workProgress, 1]; // Strict stops: Services (0) & Work
-                let closest = targets.reduce((prev, curr) => Math.abs(curr - progress) < Math.abs(prev - progress) ? curr : prev);
-                return closest;
-              },
-              duration: { min: 0.4, max: 0.8 },
-              delay: 0.01,         // Snap catches immediately on scroll pause
-              ease: "power2.inOut",
-              directional: true,
-              inertia: false       // Eliminates floaty overscroll momentum
-            },
+            scrub: 0.15,
+            end: () => "+=" + (bottomContainer.scrollWidth - window.innerWidth),
+            snap: [0, 1], // Pure binary snap: Services (0) or Work (1)
             invalidateOnRefresh: true,
           }
         });
@@ -830,19 +804,6 @@
         bottomTL.to(bottomContainer, {
           x: 0,
           ease: "none"
-        });
-
-        // Contact Section Snap Stop Enforcer
-        ScrollTrigger.create({
-          trigger: "#contact",
-          start: "top top",
-          end: "bottom bottom",
-          snap: {
-            snapTo: 1,
-            duration: { min: 0.3, max: 0.6 },
-            delay: 0.01,
-            ease: "power2.inOut"
-          }
         });
       }
     });
@@ -866,7 +827,7 @@
     );
 
     // Portfolio Cards Entrance
-    gsap.fromTo(".portfolio-card",
+    gsap.fromTo(".portfolio-card", 
       { y: 60, opacity: 0 },
       {
         y: 0,
@@ -884,26 +845,43 @@
     );
 
     function scrollToTop() {
-      gsap.to(window, { scrollTo: 0, duration: 1.2, ease: "power2.inOut" });
+      gsap.to(window, {
+        scrollTo: 0,
+        duration: 1.0,
+        ease: "power2.inOut"
+      });
     }
 
     function scrollToVision() {
       if (topHorizontalST) {
-        let targetScroll = topHorizontalST.start + (topHorizontalST.end - topHorizontalST.start) * 0.90;
-        gsap.to(window, { scrollTo: targetScroll, duration: 1.2, ease: "power2.inOut" });
+        // Direct pixel target to the exact end boundary of the top track
+        gsap.to(window, {
+          scrollTo: topHorizontalST.end,
+          duration: 1.0,
+          ease: "power2.inOut"
+        });
       }
     }
 
     function scrollToServices() {
       if (bottomHorizontalST) {
-        gsap.to(window, { scrollTo: bottomHorizontalST.start, duration: 1.4, ease: "power2.inOut" });
+        // Direct pixel target to the exact start boundary of the bottom track
+        gsap.to(window, {
+          scrollTo: bottomHorizontalST.start,
+          duration: 1.0,
+          ease: "power2.inOut"
+        });
       }
     }
 
     function scrollToWork() {
       if (bottomHorizontalST) {
-        let targetScroll = bottomHorizontalST.start + (bottomHorizontalST.end - bottomHorizontalST.start) * 0.95;
-        gsap.to(window, { scrollTo: targetScroll, duration: 1.4, ease: "power2.inOut" });
+        // Direct pixel target to the exact end boundary of the bottom track
+        gsap.to(window, {
+          scrollTo: bottomHorizontalST.end,
+          duration: 1.0,
+          ease: "power2.inOut"
+        });
       }
     }
 
