@@ -136,7 +136,7 @@
     <div id="top-horizontal-container" class="flex w-max h-screen">
       
       <!-- Panel 1: Main Hero -->
-      <section class="w-[100vw] h-screen flex-shrink-0 relative pt-28 pb-12 flex flex-col justify-between bg-transparent z-10 text-cream">
+      <section id="hero" class="w-[100vw] h-screen flex-shrink-0 relative pt-28 pb-12 flex flex-col justify-between bg-transparent z-10 text-cream">
         
         <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] bg-burntOrange-glow rounded-full blur-[160px] pointer-events-none"></div>
 
@@ -742,19 +742,30 @@
     ScrollTrigger.matchMedia({
       "(min-width: 768px)": function() {
         
-        // Top Horizontal Track: HERO -> Headshot 1 -> VISION
+        // Top Horizontal Track: HERO (0%) -> SOLUTION (100%)
         let topContainer = document.getElementById("top-horizontal-container");
+        let solutionSec = document.getElementById("solution-statement");
+        
         let topTL = gsap.timeline({
           scrollTrigger: {
             trigger: "#top-horizontal-section",
             pin: true,
-            scrub: 0.8,
-            end: () => "+=200%",
+            scrub: 0.5,
+            end: () => "+=300%",
             snap: {
-              snapTo: [0, 0.5, 1],
-              duration: { min: 0.2, max: 0.6 },
-              delay: 0.1,
-              ease: "power1.inOut"
+              // Calculate exact scroll progress where Solution content panel lines up full-screen
+              snapTo: (progress) => {
+                let maxScroll = topContainer.scrollWidth - window.innerWidth;
+                let solProgress = solutionSec.offsetLeft / maxScroll;
+                let targets = [0, solProgress]; // Strict stops: Hero (0) & Solution
+                let closest = targets.reduce((prev, curr) => Math.abs(curr - progress) < Math.abs(prev - progress) ? curr : prev);
+                return closest;
+              },
+              duration: { min: 0.4, max: 0.8 },
+              delay: 0.01,         // Snap catches immediately on scroll pause
+              ease: "power2.inOut",
+              directional: true,
+              inertia: false       // Eliminates floaty overscroll momentum
             },
             invalidateOnRefresh: true,
           }
@@ -782,8 +793,9 @@
           }
         });
 
-        // Bottom Horizontal Track: SERVICES -> Headshot 2 -> WORK
+        // Bottom Horizontal Track: SERVICES (100%) -> WORK (0%)
         let bottomContainer = document.getElementById("bottom-horizontal-container");
+        let workSec = document.getElementById("work");
         
         let getBottomMaxScroll = () => -(bottomContainer.scrollWidth - window.innerWidth);
         gsap.set(bottomContainer, { x: getBottomMaxScroll });
@@ -792,13 +804,22 @@
           scrollTrigger: {
             trigger: "#bottom-horizontal-section",
             pin: true,
-            scrub: 0.8,
-            end: () => "+=200%",
+            scrub: 0.5,
+            end: () => "+=300%",
             snap: {
-              snapTo: [0, 0.5, 1],
-              duration: { min: 0.2, max: 0.6 },
-              delay: 0.1,
-              ease: "power1.inOut"
+              // Calculate exact scroll progress where Work content panel lines up full-screen
+              snapTo: (progress) => {
+                let maxScroll = bottomContainer.scrollWidth - window.innerWidth;
+                let workProgress = (bottomContainer.scrollWidth - window.innerWidth - workSec.offsetLeft) / maxScroll;
+                let targets = [0, workProgress, 1]; // Strict stops: Services (0) & Work
+                let closest = targets.reduce((prev, curr) => Math.abs(curr - progress) < Math.abs(prev - progress) ? curr : prev);
+                return closest;
+              },
+              duration: { min: 0.4, max: 0.8 },
+              delay: 0.01,         // Snap catches immediately on scroll pause
+              ease: "power2.inOut",
+              directional: true,
+              inertia: false       // Eliminates floaty overscroll momentum
             },
             invalidateOnRefresh: true,
           }
@@ -809,6 +830,19 @@
         bottomTL.to(bottomContainer, {
           x: 0,
           ease: "none"
+        });
+
+        // Contact Section Snap Stop Enforcer
+        ScrollTrigger.create({
+          trigger: "#contact",
+          start: "top top",
+          end: "bottom bottom",
+          snap: {
+            snapTo: 1,
+            duration: { min: 0.3, max: 0.6 },
+            delay: 0.01,
+            ease: "power2.inOut"
+          }
         });
       }
     });
