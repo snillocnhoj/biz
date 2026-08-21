@@ -657,7 +657,7 @@
   <!-- Vertical Gradient Spacer: Services (#725F53) -> Work (#5A4A41) -->
   <div class="w-full h-20 sm:h-32 bg-gradient-to-b from-espresso-600 to-espresso-700 relative z-20"></div>
 
-  <!-- Section 03: WORK (Redesigned 4-Column Category Row Layout with Specific Asset Images) -->
+  <!-- Section 03: WORK (Updated Headline: CREATIVE THAT WORKS) -->
   <section id="work" class="py-16 sm:py-24 bg-espresso-700 text-cream relative z-10 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 w-full">
       
@@ -686,23 +686,23 @@
               </svg>
             </div>
 
-            <!-- IN ACTION. -->
+            <!-- THAT WORKS. -->
             <div id="work-line-2" class="block">
-              <svg class="blueprint-svg" viewBox="-15 -10 580 120" xmlns="http://www.w3.org/2000/svg">
-                <line x1="-25" y1="12" x2="575" y2="12" class="draft-line work-draft-line" />
-                <line x1="-25" y1="88" x2="575" y2="88" class="draft-line work-draft-line" />
-                <line x1="-25" y1="50" x2="575" y2="50" class="draft-line work-draft-line" stroke-dasharray="2,2" />
+              <svg class="blueprint-svg" viewBox="-15 -10 720 120" xmlns="http://www.w3.org/2000/svg">
+                <line x1="-25" y1="12" x2="715" y2="12" class="draft-line work-draft-line" />
+                <line x1="-25" y1="88" x2="715" y2="88" class="draft-line work-draft-line" />
+                <line x1="-25" y1="50" x2="715" y2="50" class="draft-line work-draft-line" stroke-dasharray="2,2" />
 
                 <line x1="5" y1="-2" x2="5" y2="102" class="draft-line work-draft-line" />
-                <line x1="85" y1="-2" x2="85" y2="102" class="draft-line work-draft-line" />
-                <line x1="175" y1="-2" x2="175" y2="102" class="draft-line work-draft-line" />
-                <line x1="265" y1="-2" x2="265" y2="102" class="draft-line work-draft-line" />
-                <line x1="355" y1="-2" x2="355" y2="102" class="draft-line work-draft-line" />
-                <line x1="445" y1="-2" x2="445" y2="102" class="draft-line work-draft-line" />
-                <line x1="525" y1="-2" x2="525" y2="102" class="draft-line work-draft-line" />
+                <line x1="110" y1="-2" x2="110" y2="102" class="draft-line work-draft-line" />
+                <line x1="210" y1="-2" x2="210" y2="102" class="draft-line work-draft-line" />
+                <line x1="320" y1="-2" x2="320" y2="102" class="draft-line work-draft-line" />
+                <line x1="430" y1="-2" x2="430" y2="102" class="draft-line work-draft-line" />
+                <line x1="540" y1="-2" x2="540" y2="102" class="draft-line work-draft-line" />
+                <line x1="660" y1="-2" x2="660" y2="102" class="draft-line work-draft-line" />
 
-                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-hollow-white">IN ACTION.</text>
-                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-solid work-line2-solid">IN ACTION.</text>
+                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-hollow-white">THAT WORKS.</text>
+                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-solid work-line2-solid">THAT WORKS.</text>
               </svg>
             </div>
 
@@ -985,32 +985,35 @@
           </div>
         </div>
 
-        <!-- Right Interactive Contact Form Card (Streamlined) -->
+        <!-- Right Interactive Contact Form Card (POSTs asynchronously to send-email.php) -->
         <div id="contact-form-card" class="lg:col-span-7 xl:col-span-7 bg-espresso-900/90 backdrop-blur-2xl p-6 sm:p-12 rounded-2xl sm:rounded-3xl border border-white/20 shadow-2xl">
           
-          <form onsubmit="event.preventDefault(); alert('Thank you! Your inquiry has been sent.');" class="space-y-4 sm:space-y-6">
+          <form id="contactForm" onsubmit="handleFormSubmit(event)" class="space-y-4 sm:space-y-6">
             
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div>
                 <label class="block text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-burntOrange-400 mb-2">Your Name *</label>
-                <input type="text" required placeholder="John Doe" class="w-full px-4 py-3 rounded-xl bg-espresso-950 border border-white/15 text-cream placeholder-cream/30 text-sm focus:outline-none focus:border-burntOrange-500 transition-colors">
+                <input type="text" name="name" required placeholder="John Doe" class="w-full px-4 py-3 rounded-xl bg-espresso-950 border border-white/15 text-cream placeholder-cream/30 text-sm focus:outline-none focus:border-burntOrange-500 transition-colors">
               </div>
 
               <div>
                 <label class="block text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-burntOrange-400 mb-2">YOUR EMAIL *</label>
-                <input type="email" required placeholder="john@company.com" class="w-full px-4 py-3 rounded-xl bg-espresso-950 border border-white/15 text-cream placeholder-cream/30 text-sm focus:outline-none focus:border-burntOrange-500 transition-colors">
+                <input type="email" name="email" required placeholder="john@company.com" class="w-full px-4 py-3 rounded-xl bg-espresso-950 border border-white/15 text-cream placeholder-cream/30 text-sm focus:outline-none focus:border-burntOrange-500 transition-colors">
               </div>
             </div>
 
             <div>
               <label class="block text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-burntOrange-400 mb-2">HOW CAN I HELP?</label>
-              <textarea rows="5" placeholder="Tell me about your project, goals, or how we can collaborate..." class="w-full px-4 py-3 rounded-xl bg-espresso-950 border border-white/15 text-cream placeholder-cream/30 text-sm focus:outline-none focus:border-burntOrange-500 transition-colors"></textarea>
+              <textarea name="message" rows="5" required placeholder="Tell me about your project, goals, or how we can collaborate..." class="w-full px-4 py-3 rounded-xl bg-espresso-950 border border-white/15 text-cream placeholder-cream/30 text-sm focus:outline-none focus:border-burntOrange-500 transition-colors"></textarea>
             </div>
 
-            <button type="submit" class="w-full py-3.5 sm:py-4 rounded-xl bg-burntOrange-500 text-white font-extrabold text-xs uppercase tracking-widest hover:bg-burntOrange-600 transition-all shadow-xl shadow-burntOrange-500/25 flex items-center justify-center gap-3">
+            <button id="submitBtn" type="submit" class="w-full py-3.5 sm:py-4 rounded-xl bg-burntOrange-500 text-white font-extrabold text-xs uppercase tracking-widest hover:bg-burntOrange-600 transition-all shadow-xl shadow-burntOrange-500/25 flex items-center justify-center gap-3">
               <span>GET IN TOUCH</span>
               <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
             </button>
+
+            <!-- Status Feedback Container -->
+            <div id="formStatus" class="hidden text-xs font-mono text-center p-3 rounded-xl"></div>
 
           </form>
 
@@ -1056,6 +1059,7 @@
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
     let topHorizontalST;
+    let isNavigating = false;
 
     // Project Data Mapping for Drawer Side Sheet
     const projectData = {
@@ -1201,6 +1205,44 @@
       setTimeout(() => {
         drawer.classList.add('invisible');
       }, 300);
+    }
+
+    // Form submission handler for send-email.php
+    async function handleFormSubmit(event) {
+      event.preventDefault();
+      const form = event.target;
+      const btn = document.getElementById('submitBtn');
+      const statusDiv = document.getElementById('formStatus');
+
+      btn.disabled = true;
+      btn.innerText = "SENDING...";
+
+      try {
+        const formData = new FormData(form);
+        const response = await fetch('send-email.php', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+        statusDiv.classList.remove('hidden', 'bg-emerald-500/20', 'text-emerald-400', 'bg-rose-500/20', 'text-rose-400');
+
+        if (response.ok && result.status === 'success') {
+          statusDiv.classList.add('bg-emerald-500/20', 'text-emerald-400');
+          statusDiv.innerText = result.message;
+          form.reset();
+        } else {
+          statusDiv.classList.add('bg-rose-500/20', 'text-rose-400');
+          statusDiv.innerText = result.message || "Something went wrong. Please try again.";
+        }
+      } catch (err) {
+        statusDiv.classList.remove('hidden');
+        statusDiv.classList.add('bg-rose-500/20', 'text-rose-400');
+        statusDiv.innerText = "Error sending message. Please email John@JohnCollins.biz directly.";
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span>GET IN TOUCH</span><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>`;
+      }
     }
 
     // 1. Initial Hero Slide-In Timeline + Entrance Morph
@@ -1422,52 +1464,37 @@
              .to(".contact-line2-solid", { opacity: 1, ease: "power2.inOut" }, 0.2)
              .to(".contact-draft-line", { opacity: 0, ease: "power2.inOut" }, 0.2);
 
+    // -------------------------------------------------------------
+    // PRECISE NAVIGATION ANCHORS (Accounts for Pinned Track Offsets)
+    // -------------------------------------------------------------
     function scrollToTop() {
-      gsap.to(window, {
-        scrollTo: 0,
-        duration: 1.0,
-        ease: "power2.inOut"
-      });
+      gsap.to(window, { scrollTo: 0, duration: 1.0, ease: "power2.inOut" });
     }
 
     function scrollToVision() {
-      if (window.innerWidth >= 768 && topHorizontalST) {
-        gsap.to(window, {
-          scrollTo: topHorizontalST.end,
-          duration: 1.0,
-          ease: "power2.inOut"
-        });
+      if (topHorizontalST) {
+        gsap.to(window, { scrollTo: topHorizontalST.end, duration: 1.2, ease: "power2.inOut" });
       } else {
-        gsap.to(window, {
-          scrollTo: "#solution-statement",
-          duration: 1.0,
-          ease: "power2.inOut"
-        });
+        gsap.to(window, { scrollTo: "#solution-statement", duration: 1.0, ease: "power2.inOut" });
       }
     }
 
     function scrollToServices() {
-      gsap.to(window, {
-        scrollTo: "#pillars",
-        duration: 1.0,
-        ease: "power2.inOut"
-      });
+      const target = document.getElementById('pillars');
+      const pinnedOffset = topHorizontalST ? (topHorizontalST.end - topHorizontalST.start) : 0;
+      gsap.to(window, { scrollTo: target.offsetTop + pinnedOffset, duration: 1.2, ease: "power2.inOut" });
     }
 
     function scrollToWork() {
-      gsap.to(window, {
-        scrollTo: "#work",
-        duration: 1.0,
-        ease: "power2.inOut"
-      });
+      const target = document.getElementById('work');
+      const pinnedOffset = topHorizontalST ? (topHorizontalST.end - topHorizontalST.start) : 0;
+      gsap.to(window, { scrollTo: target.offsetTop + pinnedOffset, duration: 1.2, ease: "power2.inOut" });
     }
 
     function scrollToContact() {
-      gsap.to(window, {
-        scrollTo: "#contact",
-        duration: 1.0,
-        ease: "power2.inOut"
-      });
+      const target = document.getElementById('contact');
+      const pinnedOffset = topHorizontalST ? (topHorizontalST.end - topHorizontalST.start) : 0;
+      gsap.to(window, { scrollTo: target.offsetTop + pinnedOffset, duration: 1.2, ease: "power2.inOut" });
     }
 
     function toggleModal(show) {
