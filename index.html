@@ -111,7 +111,13 @@
       opacity: 1;
     }
 
-    /* SVG Text Layers for Hardware-Accelerated Opacity Morphing */
+    .blueprint-svg .letter-text-str,
+    .blueprint-svg .letter-text-msg {
+      fill: rgba(0, 0, 0, 0);
+      stroke: #EA580C;
+      stroke-width: 2;
+    }
+
     .blueprint-svg .letter-text-hollow {
       fill: rgba(0, 0, 0, 0);
       stroke: #EA580C;
@@ -144,8 +150,8 @@
       will-change: filter;
     }
 
-    /* Multi-tone Gradient Text Overlay Class */
-    .gradient-overlay-text {
+    /* Initial state for COMPELLING CREATIVE gradient overlay */
+    .text-initial-gradient {
       background: linear-gradient(90deg, #FDFBF7 0%, #F97316 50%, #EA580C 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -158,6 +164,15 @@
       -webkit-text-fill-color: transparent;
       color: transparent;
       opacity: 0;
+    }
+
+    /* Vision Section: Pure Architectural Hollow Orange Text (Matches surrounding typography perfectly) */
+    .vision-hollow-text {
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 2px #EA580C;
+      display: inline;
+      will-change: -webkit-text-stroke, color;
     }
   </style>
 </head>
@@ -245,10 +260,7 @@
                 <line x1="605" y1="-2" x2="605" y2="102" class="draft-line" />
                 <line x1="655" y1="-2" x2="655" y2="102" class="draft-line" />
 
-                <!-- Hollow Blueprint Layer (Base) -->
-                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-hollow">STRATEGIC</text>
-                <!-- Solid White Layer (Fades on top) -->
-                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-solid letter-text-str-solid">STRATEGIC</text>
+                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-str">STRATEGIC</text>
               </svg>
             </div>
 
@@ -271,23 +283,18 @@
                 <line x1="605" y1="-2" x2="605" y2="102" class="draft-line" />
                 <line x1="655" y1="-2" x2="655" y2="102" class="draft-line" />
 
-                <!-- Hollow Blueprint Layer (Base) -->
-                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-hollow">MESSAGING.</text>
-                <!-- Solid White Layer (Fades on top) -->
-                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-solid letter-text-msg-solid">MESSAGING.</text>
+                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-msg">MESSAGING.</text>
               </svg>
             </div>
             
-            <!-- LINE 3: COMPELLING (Dual-Layer Smooth Fade Morph) -->
-            <div id="hero-line-3" class="text-left sm:pl-8 lg:pl-16 pt-2 sm:pt-6 relative">
-              <span class="text-burntOrange-500">COMPELLING</span>
-              <span class="compelling-gradient-overlay gradient-overlay-text absolute left-0 top-2 sm:top-6 sm:pl-8 lg:pl-16 pointer-events-none">COMPELLING</span>
+            <!-- LINE 3: COMPELLING -->
+            <div id="hero-line-3" class="text-left sm:pl-8 lg:pl-16 pt-2 sm:pt-6">
+              <span id="compelling-text" class="text-initial-gradient">COMPELLING</span>
             </div>
             
-            <!-- LINE 4: CREATIVE. (Dual-Layer Smooth Fade Morph) -->
-            <div id="hero-line-4" class="text-right relative">
-              <span class="text-burntOrange-500">CREATIVE.</span>
-              <span class="creative-gradient-overlay gradient-overlay-text absolute right-0 top-0 pointer-events-none">CREATIVE.</span>
+            <!-- LINE 4: CREATIVE. -->
+            <div id="hero-line-4" class="text-right">
+              <span id="creative-text" class="text-initial-gradient">CREATIVE.</span>
             </div>
 
           </div>
@@ -333,11 +340,26 @@
             <span class="text-xs sm:text-sm font-black uppercase tracking-widest text-burntOrange-400 font-display border-l-2 border-burntOrange-500 pl-3">SELL MORE STUFF.</span>
           </div>
           
-          <blockquote class="font-display text-3xl sm:text-6xl lg:text-7xl xl:text-[6.25rem] font-black text-cream tracking-tight leading-[1.08] mb-8 md:whitespace-nowrap">
-            <div id="sol-line-1" class="block">“Let's <span class="text-burntOrange-400">clarify your message</span>,</div>
-            <div id="sol-line-2" class="block">produce <span class="text-transparent bg-clip-text bg-gradient-to-r from-cream via-cream to-burntOrange-400/80">content that works</span>,</div>
-            <div id="sol-line-3" class="block">and <span class="text-burntOrange-400 underline decoration-burntOrange-400/40 underline-offset-8">showcase your true value</span></div>
-            <div id="sol-line-4" class="block">to the world.”</div>
+          <blockquote class="font-display text-3xl sm:text-6xl lg:text-7xl xl:text-[6.25rem] font-black text-cream tracking-tight leading-[1.12] mb-8 md:whitespace-nowrap">
+            <!-- Line 1 -->
+            <div id="sol-line-1" class="block">
+              “Let's <span class="vision-hollow-text">master your message</span>,
+            </div>
+
+            <!-- Line 2 -->
+            <div id="sol-line-2" class="block">
+              make <span class="vision-hollow-text">content that converts</span>,
+            </div>
+
+            <!-- Line 3 -->
+            <div id="sol-line-3" class="block">
+              and showcase your true
+            </div>
+
+            <!-- Line 4 -->
+            <div id="sol-line-4" class="block">
+              and <span class="vision-hollow-text">unique value</span>.”
+            </div>
           </blockquote>
 
           <div class="flex items-center gap-4 sm:gap-6 pt-2 sm:pt-4 mb-6 sm:mb-8">
@@ -522,10 +544,24 @@
               </svg>
             </div>
 
-            <!-- STORY. (Line 2: Slides from Right, Morphs to Gradient Orange) -->
-            <div id="services-line-2" class="block relative">
-              <span id="services-story-solid" class="text-burntOrange-500">STORY.</span>
-              <span id="services-story-gradient" class="services-gradient-overlay absolute left-0 top-0 pointer-events-none">STORY.</span>
+            <!-- STORY. (Line 2: Slides from Right, Morphs to Solid Orange) -->
+            <div id="services-line-2" class="block">
+              <svg class="blueprint-svg" viewBox="-15 -10 420 120" xmlns="http://www.w3.org/2000/svg">
+                <line x1="-25" y1="12" x2="415" y2="12" class="draft-line services-draft-line" />
+                <line x1="-25" y1="88" x2="415" y2="88" class="draft-line services-draft-line" />
+                <line x1="-25" y1="50" x2="415" y2="50" class="draft-line services-draft-line" stroke-dasharray="2,2" />
+
+                <line x1="5" y1="-2" x2="5" y2="102" class="draft-line services-draft-line" />
+                <line x1="85" y1="-2" x2="85" y2="102" class="draft-line services-draft-line" />
+                <line x1="165" y1="-2" x2="165" y2="102" class="draft-line services-draft-line" />
+                <line x1="245" y1="-2" x2="245" y2="102" class="draft-line services-draft-line" />
+                <line x1="325" y1="-2" x2="325" y2="102" class="draft-line services-draft-line" />
+
+                <!-- Base Hollow Orange Outline Layer -->
+                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-hollow">STORY.</text>
+                <!-- Solid Orange Overlay Layer (Fades in on Scrub) -->
+                <text x="0" y="88" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="96" letter-spacing="-2" class="letter-text-solid-orange services-line2-solid">STORY.</text>
+              </svg>
             </div>
 
           </h2>
@@ -682,7 +718,7 @@
       <!-- Work Cards Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         
-        <!-- Card 1 (Slides from Left) -->
+        <!-- Card 1 -->
         <div id="work-card-1" class="portfolio-card group bg-cream rounded-2xl border border-borderDark overflow-hidden hover:border-burntOrange-500/60 transition-all duration-500 flex flex-col justify-between shadow-xl" data-category="messaging web">
           <div>
             <div class="relative aspect-video overflow-hidden bg-espresso-900">
@@ -703,7 +739,7 @@
           </div>
         </div>
 
-        <!-- Card 2 (Slides from Right) -->
+        <!-- Card 2 -->
         <div id="work-card-2" class="portfolio-card group bg-cream rounded-2xl border border-borderDark overflow-hidden hover:border-burntOrange-500/60 transition-all duration-500 flex flex-col justify-between shadow-xl" data-category="video">
           <div>
             <div class="relative aspect-video overflow-hidden bg-espresso-900">
@@ -729,7 +765,7 @@
           </div>
         </div>
 
-        <!-- Card 3 (Slides from Right) -->
+        <!-- Card 3 -->
         <div id="work-card-3" class="portfolio-card group bg-cream rounded-2xl border border-borderDark overflow-hidden hover:border-burntOrange-500/60 transition-all duration-500 flex flex-col justify-between shadow-xl" data-category="web">
           <div>
             <div class="relative aspect-video overflow-hidden bg-espresso-900">
@@ -938,7 +974,7 @@
 
     let topHorizontalST;
 
-    // 1. Initial Entrance Timeline: Slide-in + Hardware-Accelerated Opacity Cross-Fade (Blueprint -> Solid)
+    // 1. Initial Hero Slide-In Timeline + Entrance Morph
     let heroTL = gsap.timeline({
       scrollTrigger: {
         trigger: "#top-horizontal-section",
@@ -953,9 +989,10 @@
           .from("#hero-line-3", { x: -300, opacity: 0, duration: 1.5, ease: "power3.out" }, 0.4)
           .from("#hero-line-4", { x: 300, opacity: 0, duration: 1.4, ease: "power3.out" }, 0.6);
 
-    // Automatic Entrance Morph for STRATEGIC MESSAGING
-    heroTL.to(".letter-text-solid", {
-      opacity: 1,
+    // Automatic Entrance Morph: Fades fill from hollow to solid white as lines slide into place
+    heroTL.to(".letter-text-str, .letter-text-msg", {
+      fill: "#FDFBF7",
+      strokeWidth: 0,
       duration: 1.2,
       ease: "power2.inOut"
     }, 0.5);
@@ -967,14 +1004,17 @@
     }, 0.5);
 
     // Automatic Entrance Morph for COMPELLING CREATIVE
-    heroTL.to(".compelling-gradient-overlay, .creative-gradient-overlay", {
-      opacity: 0,
+    heroTL.to("#compelling-text, #creative-text", {
+      backgroundImage: "none",
+      webkitBackgroundClip: "border-box",
+      webkitTextFillColor: "#EA580C",
+      color: "#EA580C",
       duration: 1.2,
       ease: "power2.inOut"
     }, 0.5);
 
 
-    // Responsive GSAP Media Query (Pin Horizontal on Desktop Only)
+    // Responsive GSAP Media Query (Pin Horizontal on Desktop Only, 1:1 Scroll Scrub for Exit Morphing)
     ScrollTrigger.matchMedia({
       "(min-width: 768px)": function() {
         
@@ -999,45 +1039,66 @@
           ease: "none"
         }, 0);
 
-        // Hero Exit Morphing
-        topTL.to("#hero-headline-wrapper", {
-          filter: "drop-shadow(0 0 0px rgba(234, 88, 12, 0))",
+        // -------------------------------------------------------------
+        // SCRUBBED EXIT MORPH ANIMATIONS (When scrolling right toward VISION)
+        // -------------------------------------------------------------
+        
+        // A. STRATEGIC & MESSAGING: Morph from Solid White fill -> Hollow outline + Blueprint Grid
+        topTL.to(".letter-text-str, .letter-text-msg", {
+          fill: "rgba(0,0,0,0)",
+          strokeWidth: 2,
           ease: "none",
-          duration: 0.6
-        }, 0);
-
-        topTL.to(".letter-text-solid", {
-          opacity: 0,
-          ease: "none",
-          duration: 0.7
+          duration: 0.4
         }, 0);
 
         topTL.to("#hero .draft-line", {
           opacity: 1,
           ease: "none",
-          duration: 0.7
+          duration: 0.4
         }, 0);
 
-        topTL.to(".compelling-gradient-overlay, .creative-gradient-overlay", {
-          opacity: 1,
+        // B. COMPELLING & CREATIVE: Morph from Solid Orange -> Multi-tone Gradient Text
+        topTL.to("#compelling-text, #creative-text", {
+          backgroundImage: "linear-gradient(90deg, #FDFBF7 0%, #F97316 50%, #EA580C 100%)",
+          webkitBackgroundClip: "text",
+          webkitTextFillColor: "transparent",
+          color: "transparent",
           ease: "none",
-          duration: 0.7
+          duration: 0.4
         }, 0);
 
-        // Solution Quote Lines Entrance
+        // Solution Quote Lines Entrance: Dramatic Slide-In from far right (x: 600)
         gsap.from(["#sol-line-1", "#sol-line-2", "#sol-line-3", "#sol-line-4"], {
-          x: 120,
+          x: 600,
           opacity: 0,
-          stagger: 0.12,
-          duration: 0.8,
+          stagger: 0.14,
+          duration: 1.0,
           ease: "power3.out",
           scrollTrigger: {
             trigger: "#solution-statement",
             containerAnimation: topTL,
-            start: "left 75%",
+            start: "left 80%",
             toggleActions: "play reverse play reverse"
           }
         });
+
+        // Vision Section Morph: Pure Architectural Hollow Orange -> Solid Orange Fill
+        let visionMorphTL = gsap.timeline({
+          scrollTrigger: {
+            trigger: "#solution-statement",
+            containerAnimation: topTL,
+            start: "left 65%",
+            end: "left 25%",
+            scrub: 0.5
+          }
+        });
+
+        visionMorphTL.to(".vision-hollow-text", {
+          webkitTextStrokeWidth: "0px",
+          webkitTextFillColor: "#EA580C",
+          color: "#EA580C",
+          ease: "power2.inOut"
+        }, 0);
       }
     });
 
@@ -1047,8 +1108,8 @@
     let servicesTL = gsap.timeline({
       scrollTrigger: {
         trigger: "#pillars",
-        start: "top 85%",
-        end: "top 25%",
+        start: "top 70%",
+        end: "top 30%",
         scrub: 0.5
       }
     });
@@ -1074,9 +1135,9 @@
               );
 
     // Scrub Morphing: Architectural Outlines -> Solid States
-    servicesTL.to(".services-line1-solid", { opacity: 1, ease: "power2.inOut" }, 0.15)
-              .to("#services-story-gradient", { opacity: 1, ease: "power2.inOut" }, 0.2)
-              .to(".services-draft-line", { opacity: 0, ease: "power2.inOut" }, 0.2);
+    servicesTL.fromTo(".services-line1-solid", { opacity: 0 }, { opacity: 1, ease: "power2.inOut" }, 0.15)
+              .fromTo(".services-line2-solid", { opacity: 0 }, { opacity: 1, ease: "power2.inOut" }, 0.2)
+              .fromTo(".services-draft-line", { opacity: 1 }, { opacity: 0, ease: "power2.inOut" }, 0.2);
 
     // -------------------------------------------------------------
     // WORK SECTION: SCRUB SIDE-ENTRANCE & ARCHITECTURAL MORPH
